@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <ProjectTable></ProjectTable>
+      
     </>
   )
 }

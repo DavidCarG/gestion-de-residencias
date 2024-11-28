@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import WorkIcon from '@mui/icons-material/Work';
 import BarChartIcon from '@mui/icons-material/BarChart';
 
-export default function OptionsMenu() {
+export default function OptionsMenu({ onOptionChange }) {
+    const [selectedBtn, setSelectedBtn] = useState(0);
+
+    const handleListItem = (i) => {
+        setSelectedBtn(i);
+        onOptionChange(i);
+    };
+
     return (
-        <List component="nav" sx={{}}>
+        <List component="nav">
             <ListItemButton
-                selected={true}
-                onClick={() => { }}
+                selected={selectedBtn === 0}
+                onClick={() => handleListItem(0)}
                 sx={{
                     borderRadius: '8px',
                     width: '90%',
@@ -22,8 +29,8 @@ export default function OptionsMenu() {
                 <ListItemText primary="Usuarios" />
             </ListItemButton>
             <ListItemButton
-                selected={false}
-                onClick={() => { }}
+                selected={selectedBtn === 1}
+                onClick={() => handleListItem(1)}
                 sx={{
                     borderRadius: '8px',
                     width: '90%',
@@ -36,8 +43,8 @@ export default function OptionsMenu() {
                 <ListItemText primary="Proyectos" />
             </ListItemButton>
             <ListItemButton
-                selected={false}
-                onClick={() => { }}
+                selected={selectedBtn === 2}
+                onClick={() => handleListItem(2)}
                 sx={{
                     borderRadius: '8px',
                     width: '90%',
