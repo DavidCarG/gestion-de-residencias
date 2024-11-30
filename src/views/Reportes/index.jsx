@@ -5,7 +5,6 @@ import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
 import UserModal from './NewUserModal';
 import TableHeader from './TableHeader';
-import RoleFilterTemplate from './RoleFilterTemplate';
 
 const REPORTS = [
     { author: 'David Cardenas Gonzalez', project: 'John Deere', link: 'https://www.google.com', date: '2021-10-10' },

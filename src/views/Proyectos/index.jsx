@@ -1,9 +1,7 @@
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { useState } from 'react';
-import { FilterMatchMode } from 'primereact/api';
 import { optionsBodyTemplate, reportBodyTemplate, StatusBodyTemplate, StatusFilterTemplate } from './BodyTemplates';
-import TableHeader from './TableHeader';
 import { Box } from '@mui/material';
 import UserModal from './NewUserModal';
 import CreateProject from './TableHeader';

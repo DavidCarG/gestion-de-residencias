@@ -3,8 +3,6 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
-import { Dropdown } from 'primereact/dropdown';
 import UserModal from './NewUserModal';
 import TableHeader from './TableHeader';
 import RoleFilterTemplate from './RoleFilterTemplate';
