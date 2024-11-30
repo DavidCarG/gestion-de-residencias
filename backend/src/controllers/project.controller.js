@@ -1,14 +1,20 @@
 import Project from '../models/project.model.js';
+import User from '../models/user.model.js';
 
 export const getProjects = async (req, res) => {
-  const projects = await Project.find();
-  res.json(projects);
+  try {
+    const projects = await Project.find();
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching projects', error });
+  }
 };
 
 export const createProject = async (req, res) => {
   const {
     name,
     student,
+    advisor,
     realizationDate,
     releaseDate,
     type,
@@ -20,17 +26,33 @@ export const createProject = async (req, res) => {
   } = req.body;
 
   try {
+    // Verificar si el estudiante tiene el rol "alumno"
     const studentData = await User.findById(student.id);
-    if (!studentData) {
-      return res.status(404).json({ message: 'Estudiante no encontrado' });
+    if (!studentData || studentData.role !== 'alumno') {
+      return res
+        .status(400)
+        .json({ message: 'El estudiante debe tener el rol de "alumno".' });
     }
 
+    // Verificar si el asesor tiene el rol "docente"
+    const advisorData = await User.findById(advisor.id);
+    if (!advisorData || advisorData.role !== 'docente') {
+      return res
+        .status(400)
+        .json({ message: 'El asesor debe tener el rol de "docente".' });
+    }
+
+    // Crear el nuevo proyecto
     const newProject = new Project({
       name,
       student: {
         id: student.id,
         name: student.name,
         career: student.career,
+      },
+      advisor: {
+        id: advisor.id,
+        name: advisor.name,
       },
       realizationDate,
       releaseDate,
@@ -42,16 +64,12 @@ export const createProject = async (req, res) => {
       checklist,
     });
 
-    const savedProject = await newProject.save();
-
-    res.status(201).json({
-      message: 'Proyecto de residencia creado exitosamente',
-      project: savedProject,
-    });
+    await newProject.save();
+    res.status(201).json(newProject);
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Error al crear el proyecto', error: error.message });
+      .json({ message: 'Error creando el proyecto', error: error.message });
   }
 };
 
@@ -97,6 +115,19 @@ export const updateProject = async (req, res) => {
   try {
     // Buscar el proyecto por ID
     const project = await Project.findById(id);
+
+    // Verificar si los roles de los estudiantes y asesores son correctos
+    if (project.student.id.role !== 'alumno') {
+      return res
+        .status(400)
+        .json({ message: 'El estudiante no tiene el rol adecuado.' });
+    }
+
+    if (project.advisor.id.role !== 'docente') {
+      return res
+        .status(400)
+        .json({ message: 'El asesor no tiene el rol adecuado.' });
+    }
 
     // Verificar si el proyecto existe
     if (!project) {
