@@ -8,17 +8,38 @@ import TableHeader from './TableHeader';
 import RoleFilterTemplate from './RoleFilterTemplate';
 
 const USERS = [
-    { nombre: 'Juan Perez', email: 'juan.perez@example.com', role: 'Alumno' },
-    { nombre: 'Maria Gomez', email: 'maria.gomez@example.com', role: 'Coordinador de Carrera' },
-    { nombre: 'Carlos Sanchez', email: 'carlos.sanchez@example.com', role: 'Docente' },
-    { nombre: 'Ana Martinez', email: 'ana.martinez@example.com', role: 'Docente' },
-    { nombre: 'Luis Rodriguez', email: 'luis.rodriguez@example.com', role: 'Jefe Academico' },
-    { nombre: 'Sofia Fernandez', email: 'sofia.fernandez@example.com', role: 'Alumno' },
-    { nombre: 'Miguel Torres', email: 'miguel.torres@example.com', role: 'Jefe Academico' },
-    { nombre: 'Laura Ramirez', email: 'laura.ramirez@example.com', role: 'Docente' },
-    { nombre: 'Jorge Lopez', email: 'jorge.lopez@example.com', role: 'Presidente de Academia' },
-    { nombre: 'Elena Diaz', email: 'elena.diaz@example.com', role: 'Alumno' },
+    { nombre: 'Juan Perez', email: 'juan.perez@gmail.com', role: 'Alumno' },
+    { nombre: 'Maria Gomez', email: 'maria.gomez@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Carlos Sanchez', email: 'carlos.sanchez@outlook.com', role: 'Alumno' },
+    { nombre: 'Ana Martinez', email: 'ana.martinez@gmail.com', role: 'Alumno' },
+    { nombre: 'Luis Rodriguez', email: 'luis.rodriguez@itlalaguna.edu.mx', role: 'Jefe Academico' },
+    { nombre: 'Sofia Fernandez', email: 'sofia.fernandez@hotmail.com', role: 'Alumno' },
+    { nombre: 'Miguel Torres', email: 'miguel.torres@itlalaguna.edu.mx', role: 'Jefe Academico' },
+    { nombre: 'Laura Ramirez', email: 'laura.ramirez@gmail.com', role: 'Alumno' },
+    { nombre: 'Jorge Lopez', email: 'jorge.lopez@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Elena Diaz', email: 'elena.diaz@outlook.com', role: 'Alumno' },
+    { nombre: 'Daniel Alvarez', email: 'daniel.alvarez@gmail.com', role: 'Alumno' },
+    { nombre: 'Paola Hernandez', email: 'paola.hernandez@itlalaguna.edu.mx', role: 'Jefe Academico' },
+    { nombre: 'Fernando Morales', email: 'fernando.morales@gmail.com', role: 'Alumno' },
+    { nombre: 'Alejandra Vargas', email: 'alejandra.vargas@hotmail.com', role: 'Alumno' },
+    { nombre: 'Ricardo Castillo', email: 'ricardo.castillo@gmail.com', role: 'Alumno' },
+    { nombre: 'Monica Rios', email: 'monica.rios@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Gabriel Soto', email: 'gabriel.soto@gmail.com', role: 'Alumno' },
+    { nombre: 'Angela Salinas', email: 'angela.salinas@outlook.com', role: 'Alumno' },
+    { nombre: 'Victor Ramirez', email: 'victor.ramirez@gmail.com', role: 'Alumno' },
+    { nombre: 'Carolina Lopez', email: 'carolina.lopez@hotmail.com', role: 'Alumno' },
+    { nombre: 'Oscar Gonzalez', email: 'oscar.gonzalez@gmail.com', role: 'Alumno' },
+    { nombre: 'Diana Estrada', email: 'diana.estrada@outlook.com', role: 'Alumno' },
+    { nombre: 'Francisco Torres', email: 'francisco.torres@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Valeria Mejia', email: 'valeria.mejia@hotmail.com', role: 'Alumno' },
+    { nombre: 'Hector Ponce', email: 'hector.ponce@gmail.com', role: 'Alumno' },
+    { nombre: 'Andrea Ruiz', email: 'andrea.ruiz@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Roberto Cruz', email: 'roberto.cruz@hotmail.com', role: 'Alumno' },
+    { nombre: 'Camila Fernandez', email: 'camila.fernandez@gmail.com', role: 'Alumno' },
+    { nombre: 'Ignacio Soto', email: 'ignacio.soto@itlalaguna.edu.mx', role: 'Coordinador de Carrera' },
+    { nombre: 'Patricia Navarro', email: 'patricia.navarro@gmail.com', role: 'Alumno' },
 ];
+
 
 const ROLES = ['Alumno', 'Coordinador de Carrera', 'Docente', 'Jefe Academico', 'Presidente de Academia'];
 

@@ -9,12 +9,27 @@ import { FilterMatchMode } from 'primereact/api';
 
 const PROJECTS = [
     { id: 1, nombre: "John Deere", status: 'asignado', reportes: 5 },
-    { id: 2, nombre: "DevelopMX", status: 'asignado', reportes: 0 },
-    { id: 3, nombre: "Milwuakee", status: 'sin asignar', reportes: 8 },
+    { id: 2, nombre: "DevelopMX", status: 'asignado', reportes: 8 },
+    { id: 3, nombre: "Milwuakee", status: 'sin asignar', reportes: 0 },
     { id: 4, nombre: "Chepina", status: 'asignado', reportes: 1 },
     { id: 5, nombre: "Caterpillar", status: 'asignado', reportes: 5 },
     { id: 6, nombre: "Lala", status: 'sin asignar', reportes: 0 },
+    { id: 7, nombre: "Soriana", status: 'asignado', reportes: 12 },
+    { id: 8, nombre: "Peñoles", status: 'sin asignar', reportes: 0 },
+    { id: 9, nombre: "Grupo Bimbo", status: 'asignado', reportes: 11 },
+    { id: 10, nombre: "Cervecería Modelo", status: 'sin asignar', reportes: 0 },
+    { id: 11, nombre: "Cemex", status: 'asignado', reportes: 9 },
+    { id: 12, nombre: "Grupo Aeroportuario", status: 'sin asignar', reportes: 0 },
+    { id: 13, nombre: "Nemak", status: 'asignado', reportes: 13 },
+    { id: 14, nombre: "Grupo Alfa", status: 'asignado', reportes: 2 },
+    { id: 15, nombre: "Industrias CH", status: 'sin asignar', reportes: 0 },
+    { id: 16, nombre: "Femsa", status: 'asignado', reportes: 7 },
+    { id: 17, nombre: "Vitro", status: 'sin asignar', reportes: 0 },
+    { id: 18, nombre: "Coca-Cola FEMSA", status: 'asignado', reportes: 10 },
+    { id: 19, nombre: "Alsea", status: 'sin asignar', reportes: 0 },
+    { id: 20, nombre: "Televisa", status: 'asignado', reportes: 8 },
 ];
+
 
 export default function ProjectTable() {
     const [filters, setFilters] = useState({
