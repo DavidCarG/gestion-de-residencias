@@ -1,12 +1,14 @@
 import React from 'react';
 import { Dropdown } from 'primereact/dropdown';
 
-const RoleFilterTemplate = ({ options, roles }) => {
+const roles = ['Alumno', 'Coordinador de Carrera', 'Docente', 'Jefe Academico', 'Presidente de Academia'];
+
+const RoleFilterTemplate = (options) => {
     return (
         <Dropdown
             value={options.value}
             options={roles}
-            onChange={(e) => options.filterCallback(e.value, options.index)}
+            onChange={(e) => options.filterApplyCallback(e.value)}
             placeholder="Select One"
             className="p-column-filter"
             showClear

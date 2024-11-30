@@ -5,7 +5,7 @@ import OptionsMenu from './OptionsMenu';
 const sidebarStyles = {
     innerStack: {
         height: '100%',
-        maxWidth: '25vw',
+        maxWidth: '20vw',
         padding: '9vh 0px 10px 0px',
         justifyContent: 'space-between',
         flexGrow: 1,

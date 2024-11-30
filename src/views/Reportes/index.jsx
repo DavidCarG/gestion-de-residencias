@@ -3,8 +3,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
-import UserModal from './NewUserModal';
-import TableHeader from './TableHeader';
+import { LinkBodyTemplate } from './BodyTemplates';
 
 const REPORTS = [
     { author: 'David Cardenas Gonzalez', project: 'John Deere', link: 'https://www.google.com', date: '2021-10-10' },
@@ -30,46 +29,34 @@ const REPORTS = [
 ];
 
 const ReportsView = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        role: { value: null, matchMode: FilterMatchMode.IN },
+        author: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        project: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     });
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
-
-    const handleModalOpen = () => setIsModalOpen(true);
-    const handleModalClose = () => setIsModalOpen(false);
-
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            global: { ...prevFilters.global, value },
-        }));
-        setGlobalFilterValue(value);
-    };
 
     return (
         <Box>
-            <UserModal open={isModalOpen} handleClose={handleModalClose} />
             <DataTable
-                header={<TableHeader globalFilterValue={globalFilterValue} onGlobalFilterChange={onGlobalFilterChange} onOpenModal={handleModalOpen} />}
                 value={REPORTS}
                 stripedRows
                 paginator
                 removableSort
-                rows={5}
+                rows={7}
+                size='small'
                 filters={filters}
+                onFilter={(e) => setFilters(e.filters)}
                 filterDisplay='row'
                 globalFilterFields={['nombre', 'email', 'role']}
                 emptyMessage="No se encontraron usuarios."
             >
                 <Column header="Autor" filter filterPlaceholder="Buscar por autor" sortable style={{ width: '40%' }} field='author'></Column>
                 <Column header="Proyecto" filter filterPlaceholder="Buscar por proyecto" sortable style={{ width: '30%' }} field='project'></Column>
-                <Column header="Fecha" sortable style={{ width: '10%' }} field='date'></Column>
-                <Column header="Link" style={{ width: '20%' }} field='link'></Column>
+                <Column header="Fecha" sortable style={{ width: '20%' }} field='date'></Column>
+                <Column
+                    style={{ width: '10%' }}
+                    field='link'
+                    body={LinkBodyTemplate}
+                />
             </DataTable>
         </Box>
     );

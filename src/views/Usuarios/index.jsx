@@ -31,7 +31,7 @@ const UsersView = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        role: { value: null, matchMode: FilterMatchMode.IN },
+        role: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
 
@@ -55,13 +55,22 @@ const UsersView = () => {
                 removableSort
                 rows={5}
                 filters={filters}
+                onFilter={(e) => setFilters(e.filters)}
                 filterDisplay='row'
                 globalFilterFields={['nombre', 'email', 'role']}
                 emptyMessage="No se encontraron usuarios."
             >
                 <Column header="Nombre" filter filterPlaceholder="Buscar por nombre" sortable style={{ width: '40%' }} field='nombre'></Column>
                 <Column header="Email" filter filterPlaceholder="Buscar por correo" sortable style={{ width: '30%' }} field='email'></Column>
-                <Column header="Rol" sortable style={{ width: '20%' }} field='role' filter filterElement={(options) => <RoleFilterTemplate options={options} roles={ROLES} />}></Column>
+                <Column
+                    header="Rol"
+                    sortable
+                    style={{ width: '20%' }}
+                    field='role'
+                    filter
+                    filterElement={RoleFilterTemplate}
+                    showFilterMenu={false}
+                />
             </DataTable>
         </Box>
     );
