@@ -26,6 +26,9 @@ const ROLES = ['Alumno', 'Coordinador de Carrera', 'Docente', 'Jefe Academico', 
 
 const UsersView = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleModalOpen = () => setIsModalOpen(true);
+    const handleModalClose = () => setIsModalOpen(false);
+
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -33,9 +36,6 @@ const UsersView = () => {
         role: { value: null, matchMode: FilterMatchMode.IN },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
-
-    const handleModalOpen = () => setIsModalOpen(true);
-    const handleModalClose = () => setIsModalOpen(false);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
