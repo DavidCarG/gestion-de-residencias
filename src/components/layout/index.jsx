@@ -4,6 +4,7 @@ import NavBar from './NavBar';
 import SideBar from './SideBar';
 import UsersView from '../../views/Usuarios';
 import ProjectTable from '../../views/Proyectos';
+import ReportsView from '../../views/Reportes';
 
 const LayoutStyles = {
     container: {
@@ -36,7 +37,7 @@ export default function Layout() {
             case 1:
                 return <ProjectTable></ProjectTable>
             case 2:
-                return <div>Reportes</div>;
+                return <ReportsView />;
             default:
                 return <div>D</div>;
         }

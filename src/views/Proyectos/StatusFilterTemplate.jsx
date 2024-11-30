@@ -22,7 +22,6 @@ const statusItemTemplate = (option) => {
 const statuses = ['unassigned', 'assigned'];
 
 const StatusFilterTemplate = (options) => {
-    console.log(options);
     return <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterCallback(e.value, options.index)} itemTemplate={statusItemTemplate} placeholder="Select One" showClear />;
 };
 
