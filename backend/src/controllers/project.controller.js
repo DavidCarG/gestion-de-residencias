@@ -1,6 +1,7 @@
 import Project from '../models/project.model.js';
 import User from '../models/user.model.js';
 
+// Get all projects
 export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
@@ -10,6 +11,7 @@ export const getProjects = async (req, res) => {
   }
 };
 
+// Create new project
 export const createProject = async (req, res) => {
   const {
     name,
@@ -26,23 +28,22 @@ export const createProject = async (req, res) => {
   } = req.body;
 
   try {
-    // Verificar si el estudiante tiene el rol "alumno"
+    // Verify student role
     const studentData = await User.findById(student.id);
     if (!studentData || studentData.role !== 'alumno') {
       return res
         .status(400)
-        .json({ message: 'El estudiante debe tener el rol de "alumno".' });
+        .json({ message: 'Student must have role "alumno"' });
     }
 
-    // Verificar si el asesor tiene el rol "docente"
+    // Verify advisor role
     const advisorData = await User.findById(advisor.id);
     if (!advisorData || advisorData.role !== 'docente') {
       return res
         .status(400)
-        .json({ message: 'El asesor debe tener el rol de "docente".' });
+        .json({ message: 'Advisor must have role "docente"' });
     }
 
-    // Crear el nuevo proyecto
     const newProject = new Project({
       name,
       student: {
@@ -69,36 +70,34 @@ export const createProject = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Error creando el proyecto', error: error.message });
+      .json({ message: 'Error creating project', error: error.message });
   }
 };
 
+// Get project by ID
 export const getProject = async (req, res) => {
-  const { id } = req.params; // Obtenemos el ID del proyecto de los parámetros de la URL
+  const { id } = req.params;
 
   try {
-    // Buscar el proyecto por ID
     const project = await Project.findById(id).populate(
       'student.id advisor.id',
-    ); // Usamos populate para traer los datos completos de los referenciados
+    );
 
-    // Verificar si el proyecto existe
     if (!project) {
-      return res.status(404).json({ message: 'Proyecto no encontrado' });
+      return res.status(404).json({ message: 'Project not found' });
     }
 
-    // Responder con el proyecto encontrado
     res.status(200).json({ project });
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Error al obtener el proyecto', error: error.message });
+      .json({ message: 'Error fetching project', error: error.message });
   }
 };
 
-// **2. Actualizar un proyecto**
+// Update project by ID
 export const updateProject = async (req, res) => {
-  const { id } = req.params; // Obtenemos el ID del proyecto de los parámetros de la URL
+  const { id } = req.params;
   const {
     name,
     student,
@@ -113,73 +112,64 @@ export const updateProject = async (req, res) => {
   } = req.body;
 
   try {
-    // Buscar el proyecto por ID
     const project = await Project.findById(id);
 
-    // Verificar si los roles de los estudiantes y asesores son correctos
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
     if (project.student.id.role !== 'alumno') {
       return res
         .status(400)
-        .json({ message: 'El estudiante no tiene el rol adecuado.' });
+        .json({ message: 'Student must have role "alumno"' });
     }
 
     if (project.advisor.id.role !== 'docente') {
       return res
         .status(400)
-        .json({ message: 'El asesor no tiene el rol adecuado.' });
+        .json({ message: 'Advisor must have role "docente"' });
     }
 
-    // Verificar si el proyecto existe
-    if (!project) {
-      return res.status(404).json({ message: 'Proyecto no encontrado' });
-    }
+    Object.assign(project, {
+      name: name || project.name,
+      student: student || project.student,
+      realizationDate: realizationDate || project.realizationDate,
+      releaseDate: releaseDate || project.releaseDate,
+      type: type || project.type,
+      grade: grade || project.grade,
+      summary: summary || project.summary,
+      reportFile: reportFile || project.reportFile,
+      degreeCandidate: degreeCandidate || project.degreeCandidate,
+      checklist: checklist || project.checklist,
+    });
 
-    // Actualizar el proyecto con los nuevos datos
-    project.name = name || project.name;
-    project.student = student || project.student; // Puede ser un objeto con { id, name, career }
-    project.realizationDate = realizationDate || project.realizationDate;
-    project.releaseDate = releaseDate || project.releaseDate;
-    project.type = type || project.type;
-    project.grade = grade || project.grade;
-    project.summary = summary || project.summary;
-    project.reportFile = reportFile || project.reportFile;
-    project.degreeCandidate = degreeCandidate || project.degreeCandidate;
-    project.checklist = checklist || project.checklist;
-
-    // Guardar los cambios
     const updatedProject = await project.save();
-
-    // Responder con el proyecto actualizado
     res.status(200).json({
-      message: 'Proyecto actualizado exitosamente',
+      message: 'Project updated successfully',
       project: updatedProject,
     });
   } catch (error) {
-    res.status(500).json({
-      message: 'Error al actualizar el proyecto',
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: 'Error updating project', error: error.message });
   }
 };
 
-// **3. Eliminar un proyecto**
+// Delete project by ID
 export const deleteProject = async (req, res) => {
-  const { id } = req.params; // Obtenemos el ID del proyecto de los parámetros de la URL
+  const { id } = req.params;
 
   try {
-    // Buscar el proyecto por ID y eliminarlo
     const project = await Project.findByIdAndDelete(id);
 
-    // Verificar si el proyecto fue encontrado y eliminado
     if (!project) {
-      return res.status(404).json({ message: 'Proyecto no encontrado' });
+      return res.status(404).json({ message: 'Project not found' });
     }
 
-    // Responder confirmando que el proyecto fue eliminado
-    res.status(200).json({ message: 'Proyecto eliminado exitosamente' });
+    res.status(200).json({ message: 'Project deleted successfully' });
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Error al eliminar el proyecto', error: error.message });
+      .json({ message: 'Error deleting project', error: error.message });
   }
 };

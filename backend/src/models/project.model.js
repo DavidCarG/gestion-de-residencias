@@ -1,8 +1,12 @@
 import User from './user.model.js';
+import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
     student: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,9 +15,9 @@ const projectSchema = new mongoose.Schema(
         validate: {
           validator: async function (value) {
             const studentData = await User.findById(value);
-            return studentData && studentData.role === 'alumno'; // Validar rol
+            return studentData && studentData.role === 'alumno';
           },
-          message: 'El estudiante debe tener el rol de "alumno".',
+          message: 'Student must have role "alumno"',
         },
       },
       name: { type: String, required: true },
@@ -27,9 +31,9 @@ const projectSchema = new mongoose.Schema(
         validate: {
           validator: async function (value) {
             const advisorData = await User.findById(value);
-            return advisorData && advisorData.role === 'docente'; // Validar rol
+            return advisorData && advisorData.role === 'docente';
           },
-          message: 'El asesor debe tener el rol de "docente".',
+          message: 'Advisor must have role "docente"',
         },
       },
       name: { type: String, required: true },
@@ -37,11 +41,22 @@ const projectSchema = new mongoose.Schema(
     realizationDate: { type: Date, required: true },
     releaseDate: { type: Date, required: true },
     type: { type: String, required: true },
-    grade: { type: Number, min: 0, max: 100, required: true },
+    grade: {
+      type: Number,
+      min: 0,
+      max: 100,
+      required: true,
+    },
     summary: { type: String, required: true },
     reportFile: { type: String, required: true },
-    degreeCandidate: { type: Boolean, default: false },
-    checklist: { type: [String], default: [] },
+    degreeCandidate: {
+      type: Boolean,
+      default: false,
+    },
+    checklist: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
