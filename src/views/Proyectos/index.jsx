@@ -6,6 +6,7 @@ import { optionsBodyTemplate, reportBodyTemplate, StatusBodyTemplate, StatusFilt
 import TableHeader from './TableHeader';
 import { Box } from '@mui/material';
 import UserModal from './NewUserModal';
+import CreateProject from './TableHeader';
 
 const PROJECTS = [
     { id: 1, nombre: "John Deere", status: 'asignado', reportes: 5 },
@@ -18,35 +19,20 @@ const PROJECTS = [
 
 export default function ProjectTable() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const handleModalOpen = () => setIsModalOpen(true);
     const handleModalClose = () => setIsModalOpen(false);
 
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    });
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
-
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            global: { ...prevFilters.global, value },
-        }));
-        setGlobalFilterValue(value);
-    };
-
     return (
         <Box>
+            <CreateProject onOpenModal={handleModalOpen} />
             <UserModal open={isModalOpen} handleClose={handleModalClose} />
             <DataTable
-                header={<TableHeader globalFilterValue={globalFilterValue} onGlobalFilterChange={onGlobalFilterChange} onOpenModal={handleModalOpen} />}
                 value={PROJECTS}
                 paginator
                 removableSort
                 rows={5}
                 emptyMessage="No se encontraron proyectos."
-                filters={filters}
                 filterDisplay='row'
                 globalFilterFields={['nombre', 'status']}
             >

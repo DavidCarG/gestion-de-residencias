@@ -4,7 +4,7 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 
-const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) => {
+const CreateProject = ({ onOpenModal }) => {
     return (
         <Box
             sx={{
@@ -14,11 +14,6 @@ const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) =
                 alignItems: 'center',
             }}
         >
-            <IconField iconPosition="left">
-                <InputIcon className="pi pi-search" />
-                <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Busqueda global" />
-            </IconField>
-
             <Button
                 variant="contained"
                 color="primary"
@@ -32,4 +27,4 @@ const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) =
     );
 };
 
-export default TableHeader;
+export default CreateProject;
