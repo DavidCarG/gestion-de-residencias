@@ -5,6 +5,7 @@ import { optionsBodyTemplate, reportBodyTemplate, StatusBodyTemplate, StatusFilt
 import { Box } from '@mui/material';
 import UserModal from './NewUserModal';
 import CreateProject from './TableHeader';
+import { FilterMatchMode } from 'primereact/api';
 
 const PROJECTS = [
     { id: 1, nombre: "John Deere", status: 'asignado', reportes: 5 },
@@ -16,6 +17,11 @@ const PROJECTS = [
 ];
 
 export default function ProjectTable() {
+    const [filters, setFilters] = useState({
+        nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        status: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    });
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleModalOpen = () => setIsModalOpen(true);
@@ -29,7 +35,10 @@ export default function ProjectTable() {
                 value={PROJECTS}
                 paginator
                 removableSort
-                rows={5}
+                filters={filters}
+                onFilter={(e) => setFilters(e.filters)}
+                rows={6}
+                size='small'
                 emptyMessage="No se encontraron proyectos."
                 filterDisplay='row'
                 globalFilterFields={['nombre', 'status']}

@@ -16,14 +16,12 @@ const LayoutStyles = {
         display: 'flex',
         flexGrow: 1,
     },
-    sidebar: {
-        width: '25vw',
-        borderRight: '0.5px solid #e0e0e0',
-    },
     content: {
         flexGrow: 1,
-        padding: '13vh 1rem 0px 16px',
         backgroundColor: '#152027',
+        margin: '5rem 2rem 0 2rem',
+        maxHeight: '90vh',
+        overflowY: 'auto',
     },
 };
 
@@ -35,7 +33,7 @@ export default function Layout() {
             case 0:
                 return <UsersView />;
             case 1:
-                return <ProjectTable></ProjectTable>
+                return <ProjectTable />
             case 2:
                 return <ReportsView />;
             default:
@@ -47,9 +45,7 @@ export default function Layout() {
         <Box sx={LayoutStyles.container}>
             <NavBar />
             <Box sx={LayoutStyles.main}>
-                <Box sx={LayoutStyles.sidebar}>
-                    <SideBar onOptionChange={setSelectedOption} />
-                </Box>
+                <SideBar onOptionChange={setSelectedOption} />
                 <Box sx={LayoutStyles.content}>
                     {renderContent()}
                 </Box>

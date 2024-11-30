@@ -66,7 +66,7 @@ export const StatusFilterTemplate = (options) => {
     return (
         <Dropdown
             value={options.value}
-            options={statuses} x
+            options={statuses}
             onChange={(e) => options.filterApplyCallback(e.value)}
             itemTemplate={statusItemTemplate}
             placeholder="Filtrar por estatus"
