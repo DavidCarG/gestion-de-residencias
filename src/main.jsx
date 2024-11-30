@@ -7,6 +7,7 @@ import './index.css';
 import App from './App.jsx';
 import Layout from './components/layout/index.jsx';
 import { lightTheme, darkTheme } from './assets/theme.js'; // Adjust the path if necessary
+import UserForm from './views/Usuarios/index.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,8 +17,6 @@ createRoot(document.getElementById('root')).render(
         <Layout>
           <Routes>
             <Route path="/" element={<App />} />
-            {/* Add more routes here */}
-            <Route path='/felipe' element={<App />} />
           </Routes>
         </Layout>
       </Router>
