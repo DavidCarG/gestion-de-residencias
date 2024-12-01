@@ -45,7 +45,7 @@ const UsersView = () => {
     return (
         <Box
         sx={{
-            margin:'0 2rem 3vh 2rem',
+            margin:'12vh 2rem 3vh 2rem',
         }}
         >
             <UserModal open={isModalOpen} handleClose={handleModalClose} />

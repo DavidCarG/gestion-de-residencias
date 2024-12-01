@@ -29,7 +29,7 @@ export default function ProjectsView    () {
 
     return (
         <Box
-        margin={'0 2rem 7vh 2rem'}
+        margin={'5vh 2rem 7vh 2rem'}
         >
             <CreateProject onOpenModal={handleModalOpen} />
             <ProjectModal open={isModalOpen} handleClose={handleModalClose} />

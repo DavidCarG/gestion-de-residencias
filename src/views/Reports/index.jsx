@@ -37,7 +37,7 @@ const ReportsView = () => {
     return (
         <Box
         sx={{
-            margin:'0 2rem 5vh 2rem',
+            margin:'5vh 2rem 5vh 2rem',
         }}
         >
             <DataTable
