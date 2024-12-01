@@ -7,7 +7,9 @@ import './index.css';
 import App from './App.jsx';
 import Layout from './components/layout/index.jsx';
 import { lightTheme, darkTheme } from './assets/theme.js'; // Adjust the path if necessary
-import UserForm from './views/Usuarios/index.jsx';
+import ReportsView from './views/Reports/index.jsx';
+import UsersView from './views/Users/index.jsx';
+import ProjectsView from './views/Projects/index.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +19,9 @@ createRoot(document.getElementById('root')).render(
         <Layout>
           <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/proyectos" element={<ProjectsView/>} />
+            <Route path="/usuarios" element={<UsersView />} />
+            <Route path="/reportes" element={<ReportsView />} />
           </Routes>
         </Layout>
       </Router>

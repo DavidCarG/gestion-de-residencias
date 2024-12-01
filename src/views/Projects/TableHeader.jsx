@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Button } from '@mui/material';
+import propTypes from 'prop-types';
 
 const CreateProject = ({ onOpenModal }) => {
     return (
@@ -22,6 +22,10 @@ const CreateProject = ({ onOpenModal }) => {
             </Button>
         </Box>
     );
+};
+
+CreateProject.propTypes = {
+    onOpenModal: propTypes.func.isRequired,
 };
 
 export default CreateProject;

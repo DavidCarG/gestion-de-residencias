@@ -1,4 +1,4 @@
-import { Box, Divider, Stack } from '@mui/material';
+import {Divider, Stack } from '@mui/material';
 import UserOptions from './UserOptions';
 import OptionsMenu from './OptionsMenu';
 
@@ -13,10 +13,10 @@ const sidebarStyles = {
     },
 };
 
-export default function SideBar({ onOptionChange }) {
+export default function SideBar() {
     return (
         <Stack sx={sidebarStyles.innerStack}>
-            <OptionsMenu onOptionChange={onOptionChange} />
+            <OptionsMenu/>
             <Stack spacing={2}>
                 <Divider />
                 <UserOptions />

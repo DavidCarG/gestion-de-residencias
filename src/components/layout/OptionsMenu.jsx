@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import WorkIcon from '@mui/icons-material/Work';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import { useNavigate } from 'react-router-dom';
 
-export default function OptionsMenu({ onOptionChange }) {
-    const [selectedBtn, setSelectedBtn] = useState(0);
+export default function OptionsMenu() {
+    const [selectedBtn, setSelectedBtn] = useState(-1);
+    const navigate = useNavigate();
 
-    const handleListItem = (i) => {
+    const handleListItem = (i, path) => {
         setSelectedBtn(i);
-        onOptionChange(i);
+        navigate(path);
     };
 
     return (
@@ -21,7 +23,7 @@ export default function OptionsMenu({ onOptionChange }) {
             <List component="nav">
                 <ListItemButton
                     selected={selectedBtn === 0}
-                    onClick={() => handleListItem(0)}
+                    onClick={() => handleListItem(0, '/usuarios')}
                     sx={{
                         borderRadius: '8px',
                         width: '90%',
@@ -35,7 +37,7 @@ export default function OptionsMenu({ onOptionChange }) {
                 </ListItemButton>
                 <ListItemButton
                     selected={selectedBtn === 1}
-                    onClick={() => handleListItem(1)}
+                    onClick={() => handleListItem(1, '/proyectos')}
                     sx={{
                         borderRadius: '8px',
                         width: '90%',
@@ -49,7 +51,7 @@ export default function OptionsMenu({ onOptionChange }) {
                 </ListItemButton>
                 <ListItemButton
                     selected={selectedBtn === 2}
-                    onClick={() => handleListItem(2)}
+                    onClick={() => handleListItem(2, '/reportes')}
                     sx={{
                         borderRadius: '8px',
                         width: '90%',

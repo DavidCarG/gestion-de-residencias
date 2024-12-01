@@ -4,7 +4,7 @@ import { Menu } from "primereact/menu";
 import { Tag } from "primereact/tag";
 import { useRef } from "react";
 
-export const reportBodyTemplate = (data) => {
+export const ReportBodyTemplate = (data) => {
     return (
         <Button
             label={`${data.reportes} Reportes`}
@@ -16,7 +16,7 @@ export const reportBodyTemplate = (data) => {
     );
 };
 
-export const optionsBodyTemplate = (data) => {
+export const OptionsBodyTemplate = () => {
     const items = [
         { label: 'Asignar reporte', icon: 'pi pi-file' },
         { label: 'Modificar', icon: 'pi pi-pencil' },
@@ -57,7 +57,7 @@ export const StatusBodyTemplate = (rowData) => {
     );
 };
 
-export const statusItemTemplate = (option) => {
+export const StatusItemTemplate = (option) => {
     return <Tag value={option} severity={getSeverity(option)} />;
 };
 
@@ -68,7 +68,7 @@ export const StatusFilterTemplate = (options) => {
             value={options.value}
             options={statuses}
             onChange={(e) => options.filterApplyCallback(e.value)}
-            itemTemplate={statusItemTemplate}
+            itemTemplate={StatusItemTemplate}
             placeholder="Filtrar por estatus"
             className="p-column-filter"
             showClear

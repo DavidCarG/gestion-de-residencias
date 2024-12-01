@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
@@ -35,7 +35,11 @@ const ReportsView = () => {
     });
 
     return (
-        <Box>
+        <Box
+        sx={{
+            margin:'0 2rem 5vh 2rem',
+        }}
+        >
             <DataTable
                 value={REPORTS}
                 stripedRows

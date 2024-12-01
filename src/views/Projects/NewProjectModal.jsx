@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import PropTypes from 'prop-types';
 
 const style = {
     position: 'absolute',
@@ -13,7 +14,7 @@ const style = {
     p: 4,
 };
 
-function UserModal({ open, handleClose }) {
+function ProjectModal({ open, handleClose }) {
     const [formData, setFormData] = useState({
         nombre: '',
         email: '',
@@ -96,4 +97,9 @@ function UserModal({ open, handleClose }) {
     );
 }
 
-export default UserModal;
+ProjectModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+};
+
+export default ProjectModal;
