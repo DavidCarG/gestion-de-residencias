@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
@@ -19,8 +19,6 @@ const USERS = [
     { nombre: 'Jorge Lopez', email: 'jorge.lopez@example.com', role: 'Presidente de Academia' },
     { nombre: 'Elena Diaz', email: 'elena.diaz@example.com', role: 'Alumno' },
 ];
-
-const ROLES = ['Alumno', 'Coordinador de Carrera', 'Docente', 'Jefe Academico', 'Presidente de Academia'];
 
 const UsersView = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +43,11 @@ const UsersView = () => {
     };
 
     return (
-        <Box>
+        <Box
+        sx={{
+            margin:'12vh 2rem 3vh 2rem',
+        }}
+        >
             <UserModal open={isModalOpen} handleClose={handleModalClose} />
             <DataTable
                 header={<TableHeader globalFilterValue={globalFilterValue} onGlobalFilterChange={onGlobalFilterChange} onOpenModal={handleModalOpen} />}
