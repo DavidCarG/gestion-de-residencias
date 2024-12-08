@@ -19,9 +19,10 @@ const projectBankSchema = new mongoose.Schema(
       max: 2100,
     },
     semester: {
-      type: String,
+      type: Number, // Cambiamos a tipo Number
       required: true,
-      enum: ['Spring', 'Fall'],
+      min: 1, // Valor mínimo permitido
+      max: 13, // Valor máximo permitido
     },
     managerName: {
       type: String,
