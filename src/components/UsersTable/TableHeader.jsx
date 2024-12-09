@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button } from '@mui/material';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';

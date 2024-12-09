@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dropdown } from 'primereact/dropdown';
 
 const roles = ['Alumno', 'Coordinador de Carrera', 'Docente', 'Jefe Academico', 'Presidente de Academia'];

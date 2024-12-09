@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useState } from 'react';
+import { createUser } from '../../api/users';
 
 const style = {
     position: 'absolute',
@@ -15,9 +16,9 @@ const style = {
 
 function UserModal({ open, handleClose }) {
     const [formData, setFormData] = useState({
-        nombre: '',
+        name: '',
         email: '',
-        password: '',
+        passwordHash: '',
         role: ''
     });
 
@@ -30,6 +31,8 @@ function UserModal({ open, handleClose }) {
     };
 
     const handleSubmit = (event) => {
+        createUser(formData);
+
         event.preventDefault();
         handleClose();
     };
@@ -46,8 +49,8 @@ function UserModal({ open, handleClose }) {
                 <form onSubmit={handleSubmit}>
                     <TextField
                         label="Nombre"
-                        name="nombre"
-                        value={formData.nombre}
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
@@ -65,9 +68,9 @@ function UserModal({ open, handleClose }) {
                     />
                     <TextField
                         label="Password"
-                        name="password"
+                        name="passwordHash"
                         type="password"
-                        value={formData.password}
+                        value={formData.passwordHash}
                         onChange={handleChange}
                         fullWidth
                         margin="normal"
@@ -80,11 +83,11 @@ function UserModal({ open, handleClose }) {
                             value={formData.role}
                             onChange={handleChange}
                         >
-                            <MenuItem value="docente">Docente</MenuItem>
-                            <MenuItem value="alumno">Alumno</MenuItem>
-                            <MenuItem value="jefe academico">Jefe Academico</MenuItem>
-                            <MenuItem value="presidente de academia">Presidente de Academia</MenuItem>
-                            <MenuItem value="coordinador de carrera">Coordinador de Carrera</MenuItem>
+                            <MenuItem value="jefe_academico">Jefe Academico</MenuItem>
+                            <MenuItem value="profesor">Profesor</MenuItem>
+                            <MenuItem value="presidente_academia">Presidente de Academia</MenuItem>
+                            <MenuItem value="coordinador_carrera">Coordinador de Carrera</MenuItem>
+                            <MenuItem value="estudiante">Estudiante</MenuItem>
                         </Select>
                     </FormControl>
                     <Button type="submit" variant="contained" color="primary">
