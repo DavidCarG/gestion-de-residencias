@@ -45,7 +45,7 @@ function UserModal({ open, handleClose }) {
             aria-describedby="modal-description"
         >
             <Box sx={style}>
-                <h2 id="modal-title">User Form</h2>
+                <h2 id="modal-title">Nuevo Usuario</h2>
                 <form onSubmit={handleSubmit}>
                     <TextField
                         label="Nombre"
