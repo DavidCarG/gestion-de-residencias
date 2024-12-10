@@ -4,6 +4,8 @@ import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
 import { LinkBodyTemplate } from './BodyTemplates';
+import CreateReport from './TableHeader';
+import ReportModal from './NewReportModal';
 
 const REPORTS = [
     { author: 'David Cardenas Gonzalez', project: 'John Deere', link: 'https://www.google.com', date: '2021-10-10' },
@@ -34,12 +36,19 @@ const ReportsView = () => {
         project: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     });
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    const handleModalOpen = () => setIsModalOpen(true);
+    const handleModalClose = () => setIsModalOpen(false);
+
     return (
         <Box
         sx={{
             margin:'5vh 2rem 5vh 2rem',
         }}
         >
+            <CreateReport onOpenModal={handleModalOpen}/>
+            <ReportModal open={isModalOpen} handleClose={handleModalClose}/>
             <DataTable
                 value={REPORTS}
                 stripedRows
