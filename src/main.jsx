@@ -11,7 +11,7 @@ import { darkTheme } from './assets/theme.js';
 import ReportsView from './views/Reports/index.jsx';
 import UsersView from './views/Users/index.jsx';
 import ProjectsView from './views/Projects/index.jsx';
-import { addLocale, locale} from 'primereact/api';
+import { addLocale, locale } from 'primereact/api';
 import es from './assets/esPrimeReact.json';
 
 addLocale('es', es);
@@ -19,13 +19,13 @@ locale('es');
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider theme={darkTheme}> {/* or darkTheme */}
+    <ThemeProvider theme={darkTheme}>
       <Router>
         <CssBaseline />
         <Layout>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/proyectos" element={<ProjectsView/>} />
+            <Route path="/proyectos" element={<ProjectsView />} />
             <Route path="/usuarios" element={<UsersView />} />
             <Route path="/reportes" element={<ReportsView />} />
           </Routes>
