@@ -1,11 +1,11 @@
 import api from './index';
 
-export const fetchUsers = async () => {
-  const response = await api.get('/users');
+export const fetchReports = async () => {
+  const response = await api.get('/reports');
   return response.data;
 };
 
-export const createReport = async (report) => {
-  const response = await api.post('/reports', report);
-  return response.data;
+export const createReports = async (report) => {
+  const responde = await api.post('/reports', report);
+  return responde.data;
 };
