@@ -1,105 +1,128 @@
-import { useState } from 'react';
-import { Modal, Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Modal, Box, TextField, Button } from '@mui/material';
+import Grid from '@mui/material/Grid2'; // Grid2 import
 import PropTypes from 'prop-types';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-function ProjectModal({ open, handleClose }) {
+const NewProjectModal = ({ open, handleClose, handleSave, data }) => {
     const [formData, setFormData] = useState({
-        nombre: '',
-        email: '',
-        password: '',
-        role: ''
+        projectName: '',
+        requestingCompany: '',
+        releaseDate: '',
+        advisor: '',
+        advisorMail: '',
+        advisorContactPhone: '',
+        city: '',
+        state: '',
+        career: '',
+        summary: '',
     });
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    useEffect(() => {
+        if (data) {
+            const {
+                projectName,
+                requestingCompany,
+                releaseDate,
+                advisor,
+                advisorMail,
+                advisorContactPhone,
+                city,
+                state,
+                career,
+                summary,
+            } = data;
+            setFormData({
+                projectName,
+                requestingCompany,
+                releaseDate: releaseDate ? new Date(releaseDate).toISOString().split('T')[0] : '',
+                advisor,
+                advisorMail,
+                advisorContactPhone,
+                city,
+                state,
+                career,
+                summary,
+            });
+        }
+    }, [data]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = () => {
+        const formattedData = {
+            ...formData,
+            releaseDate: new Date(formData.releaseDate),
+        };
+
+        data? handleSave(data._id, formattedData) : handleSave(formattedData);
         handleClose();
     };
 
     return (
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
-        >
-            <Box sx={style}>
-                <h2 id="modal-title">User Form</h2>
-                <form onSubmit={handleSubmit}>
-                    <TextField
-                        label="Nombre"
-                        name="nombre"
-                        value={formData.nombre}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        required
-                    />
-                    <TextField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        required
-                    />
-                    <TextField
-                        label="Password"
-                        name="password"
-                        type="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        required
-                    />
-                    <FormControl fullWidth margin="normal" required>
-                        <InputLabel>Role</InputLabel>
-                        <Select
-                            name="role"
-                            value={formData.role}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value="docente">Docente</MenuItem>
-                            <MenuItem value="alumno">Alumno</MenuItem>
-                            <MenuItem value="jefe academico">Jefe Academico</MenuItem>
-                            <MenuItem value="presidente de academia">Presidente de Academia</MenuItem>
-                            <MenuItem value="coordinador de carrera">Coordinador de Carrera</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button type="submit" variant="contained" color="primary">
-                        Submit
-                    </Button>
-                </form>
+        <Modal open={open} onClose={handleClose}>
+            <Box
+                component="form"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    p: 4,
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    borderRadius: 1,
+                    width: 600,
+                    margin: 'auto',
+                    mt: '10vh',
+                }}
+            >
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Project Name" name="projectName" value={formData.projectName} onChange={handleChange} required fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Requesting Company" name="requestingCompany" value={formData.requestingCompany} onChange={handleChange} required fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Release Date" name="releaseDate" type="date" value={formData.releaseDate} onChange={handleChange} InputLabelProps={{ shrink: true }} fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Advisor" name="advisor" value={formData.advisor} onChange={handleChange} fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Advisor Email" name="advisorMail" value={formData.advisorMail} onChange={handleChange} fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Advisor Contact Phone" name="advisorContactPhone" value={formData.advisorContactPhone} onChange={handleChange} fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="City" name="city" value={formData.city} onChange={handleChange} required fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="State" name="state" value={formData.state} onChange={handleChange} required fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <TextField label="Career" name="career" value={formData.career} onChange={handleChange} required fullWidth />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                        <TextField label="Summary" name="summary" value={formData.summary} onChange={handleChange} required multiline rows={4} fullWidth />
+                    </Grid>
+                </Grid>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                    <Button variant="contained" color="primary" onClick={handleSubmit}>Save</Button>
+                </Box>
             </Box>
         </Modal>
     );
-}
-
-ProjectModal.propTypes = {
-    open: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
 };
 
-export default ProjectModal;
+NewProjectModal.propTypes = {
+    data: PropTypes.object,
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    handleSave: PropTypes.func.isRequired,
+};
+
+export default NewProjectModal;

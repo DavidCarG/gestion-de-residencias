@@ -1,6 +1,6 @@
 import api from './index';
 
-export const newProject = async (project) => {
+export const createProject = async (project) => {
     const response = await api.post('/projects', project);
     return response.data;
 }

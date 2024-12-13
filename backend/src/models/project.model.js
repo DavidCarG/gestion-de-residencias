@@ -1,25 +1,20 @@
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
-  name: { type: String, required: true, index: true },
+  projectName: { type: String, required: true, index: true },
   requestingCompany: {
     type: String,
     required: true,
     trim: true,
     index: true,
   },
-  assigned: { type: Boolean, required: true },
+  assigned: { type: Boolean, required: false , default: false},
   assignees: { type: [String], default: [] },
-  semester: {
-    type: String,
-    required: true,
-    enum: ["Spring", "Fall"],
-  },
-  releaseDate: { type: Date, required: true, index: true },
-  advisor: { type: String, required: true },
+  releaseDate: { type: Date, required: false, index: true },
+  advisor: { type: String, required: false },
   advisorMail: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     lowercase: true,
     match: [
@@ -29,7 +24,7 @@ const projectSchema = new mongoose.Schema({
   },
   advisorContactPhone: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
     match: [
       /^\d{10}$/,
@@ -48,6 +43,8 @@ const projectSchema = new mongoose.Schema({
   },
   career: { type: String, required: true },
   summary: { type: String, required: true },
+  reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Report' }],
+  reportCount: { type: Number, default: 0 }, 
 }, { timestamps: true });
 
 export default mongoose.model("Project", projectSchema);
