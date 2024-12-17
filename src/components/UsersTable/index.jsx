@@ -5,9 +5,12 @@ import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
 import UserModal from './NewUserModal';
 import TableHeader from './TableHeader';
-import RoleFilterTemplate from './RoleFilterTemplate';
+import RoleFilterTemplate from './BodyTemplates/RoleFilterTemplate';
+import { OptionsBodyTemplate } from './BodyTemplates/OptionsBodyTemplate';
+import { createUser } from '../../api/users';
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types, no-unused-vars
+//TODO fix or remove global filter
 const UsersTable = ({ data, loading, error }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleModalOpen = () => setIsModalOpen(true);
@@ -15,7 +18,7 @@ const UsersTable = ({ data, loading, error }) => {
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        nombre: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         role: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
@@ -23,9 +26,9 @@ const UsersTable = ({ data, loading, error }) => {
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            global: { ...prevFilters.global, value },
+        setFilters((filters) => ({
+            ...filters,
+            global: { ...filters.global, value },
         }));
         setGlobalFilterValue(value);
     };
@@ -36,7 +39,8 @@ const UsersTable = ({ data, loading, error }) => {
             margin:'12vh 2rem 3vh 2rem',
         }}
         >
-            <UserModal open={isModalOpen} handleClose={handleModalClose} />
+            {error && <Box sx={{ color: 'red', marginBottom: '1rem' }}>{error}</Box>}
+            <UserModal open={isModalOpen} handleSave={createUser} handleClose={handleModalClose} />
             <DataTable
                 header={<TableHeader globalFilterValue={globalFilterValue} onGlobalFilterChange={onGlobalFilterChange} onOpenModal={handleModalOpen} />}
                 value={data}
@@ -62,9 +66,26 @@ const UsersTable = ({ data, loading, error }) => {
                     filterElement={RoleFilterTemplate}
                     showFilterMenu={false}
                 />
+                <Column
+                style={{ width: '5%' }}
+                body={OptionsBodyTemplate}
+                />
             </DataTable>
         </Box>
     );
 }
+
+UsersTable.propTypes = {
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string,
+            email: PropTypes.string,
+            role: PropTypes.oneOf(["jefe_academico", "profesor", "presidente_academia", "coordinador_carrera", "estudiante"]),
+            permissions: PropTypes.arrayOf(PropTypes.string)
+        })
+    ),
+    loading: PropTypes.bool,
+    error: PropTypes.string
+};
 
 export default UsersTable;

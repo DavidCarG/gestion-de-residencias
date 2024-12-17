@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
+import PropTypes from 'prop-types';
 
 const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) => {
     return (
@@ -29,6 +30,12 @@ const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) =
             </Button>
         </Box>
     );
+};
+
+TableHeader.propTypes = {
+    globalFilterValue: PropTypes.string.isRequired,
+    onGlobalFilterChange: PropTypes.func.isRequired,
+    onOpenModal: PropTypes.func.isRequired,
 };
 
 export default TableHeader;
