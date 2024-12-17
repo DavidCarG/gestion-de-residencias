@@ -5,9 +5,7 @@ import {
   updateReport,
   deleteReport,
   getReportById,
-  getReportsByProjectId,
 } from '../controllers/report.controller.js';
-import { authRequired } from '../middlewares/validateToken.js';
 
 const router = express.Router();
 

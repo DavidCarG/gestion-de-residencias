@@ -1,7 +1,5 @@
-import Report from '../models/report.model.js'; // Assuming the schema file is in models folder
-import mongoose from 'mongoose';
+import Report from '../models/report.model.js';
 
-// Create a new report
 export const createReport = async (req, res) => {
   const { projectId, userId, link } = req.body;
 
@@ -20,12 +18,11 @@ export const createReport = async (req, res) => {
   }
 };
 
-// Get all reports
 export const getReports = async (req, res) => {
   try {
     const reports = await Report.find()
-      .populate('projectId', 'name') // Populate project name
-      .populate('userId', 'name email'); // Populate user details
+      .populate('projectId', 'projectName requestingCompany')
+      .populate('userId', 'name email');
     res.status(200).json(reports);
   } catch (error) {
     console.error(error);
@@ -33,7 +30,6 @@ export const getReports = async (req, res) => {
   }
 };
 
-// Get reports by projectId
 export const getReportsByProjectId = async (req, res) => {
   const { projectId } = req.params;
 
@@ -50,7 +46,6 @@ export const getReportsByProjectId = async (req, res) => {
   }
 };
 
-// Get a single report by reportId
 export const getReportById = async (req, res) => {
   const { id } = req.params;
 
@@ -68,7 +63,6 @@ export const getReportById = async (req, res) => {
   }
 };
 
-// Update a report
 export const updateReport = async (req, res) => {
   const { id } = req.params;
   const { projectId, userId, link } = req.body;
@@ -79,7 +73,6 @@ export const updateReport = async (req, res) => {
       return res.status(404).json({ message: 'Report not found' });
     }
 
-    // Update report fields
     report.projectId = projectId || report.projectId;
     report.userId = userId || report.userId;
     report.link = link || report.link;
@@ -92,7 +85,6 @@ export const updateReport = async (req, res) => {
   }
 };
 
-// Delete a report
 export const deleteReport = async (req, res) => {
   const { id } = req.params;
 
