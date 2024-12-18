@@ -10,7 +10,9 @@ const projectSchema = new mongoose.Schema(
       index: true,
     },
     assigned: { type: Boolean, required: false, default: false },
-    assignees: { type: [String], default: [] },
+    assignees: [
+      { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    ],
     releaseDate: { type: Date, required: false, index: true },
     advisor: { type: String, required: false },
     advisorMail: {

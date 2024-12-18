@@ -3,12 +3,13 @@ import { Dropdown } from 'primereact/dropdown';
 import { Menu } from 'primereact/menu';
 import { useRef, useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
+import { MultiSelect } from 'primereact/multiselect';
 import {
   deleteProject,
   updateProject,
   fetchProjects,
 } from '../../api/projects';
-import { fetchUsers } from '../../api/users';
+import { fetchUserById, fetchUsers } from '../../api/users';
 import { createReport } from '../../api/reports';
 import { InputText } from 'primereact/inputtext';
 import NewProjectModal from './NewProjectModal';
@@ -62,10 +63,29 @@ export const OptionsBodyTemplate = (rowData) => {
   const handleSaveReport = () => {
     handleCreateReport({
       userId: selectedUser._id,
-      projectId: selectedProject._id,
+      projectId: rowData._id,
       link,
     });
     handleReportModalClose();
+  };
+
+  const [assignUserModalOpen, setAssignUserModalOpen] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const handleAssignUserModalOpen = () => {
+    const assigneePromises = rowData.assignees.map((id) => fetchUserById(id));
+    Promise.all(assigneePromises).then(setSelectedUsers);
+    setAssignUserModalOpen(true);
+  };
+
+  const handleAssignUserModalClose = () => setAssignUserModalOpen(false);
+
+  const handleAssignUsers = () => {
+    handleModify(rowData._id, {
+      assigned: true,
+      assignees: selectedUsers.map((user) => user._id),
+    });
+    handleAssignUserModalClose();
   };
 
   const items = [
@@ -73,6 +93,11 @@ export const OptionsBodyTemplate = (rowData) => {
       label: 'Asignar reporte',
       icon: 'pi pi-file',
       command: () => handleReportModalOpen(),
+    },
+    {
+      label: 'Asignar usuario',
+      icon: 'pi pi-user',
+      command: () => handleAssignUserModalOpen(),
     },
     {
       label: 'Modificar',
@@ -157,19 +182,42 @@ export const OptionsBodyTemplate = (rowData) => {
           placeholder="Seleccione un usuario"
           style={{ width: '100%' }}
         />
-        <Dropdown
-          value={selectedProject}
-          options={projects}
-          onChange={(e) => setSelectedProject(e.value)}
-          optionLabel="projectName"
-          placeholder="Seleccione un proyecto"
-          style={{ width: '100%', marginTop: '1rem' }}
-        />
         <InputText
           value={link}
           onChange={(e) => setLink(e.target.value)}
           placeholder="Ingrese el enlace"
           style={{ width: '100%', marginTop: '1rem' }}
+        />
+      </Dialog>
+      <Dialog
+        header="Asignar Usuario"
+        visible={assignUserModalOpen}
+        style={{ width: '450px' }}
+        footer={
+          <div>
+            <Button
+              label="Cancelar"
+              icon="pi pi-times"
+              onClick={handleAssignUserModalClose}
+              className="p-button-text"
+            />
+            <Button
+              label="Guardar"
+              icon="pi pi-check"
+              onClick={handleAssignUsers}
+              autoFocus
+            />
+          </div>
+        }
+        onHide={handleAssignUserModalClose}
+      >
+        <MultiSelect
+          value={selectedUsers}
+          options={users}
+          onChange={(e) => setSelectedUsers(e.value)}
+          optionLabel="name"
+          placeholder="Seleccione usuarios"
+          style={{ width: '100%' }}
         />
       </Dialog>
     </>

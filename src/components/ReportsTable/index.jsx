@@ -36,7 +36,7 @@ const ReportsTable = ({ data, loading, error }) => {
         onFilter={(e) => setFilters(e.filters)}
         filterDisplay="row"
         globalFilterFields={['nombre', 'email', 'role']}
-        emptyMessage="No se encontraron usuarios."
+        emptyMessage="No se encontraron reportes."
       >
         <Column
           header="Autor"
