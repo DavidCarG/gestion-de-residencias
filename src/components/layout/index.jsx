@@ -4,54 +4,39 @@ import SideBar from './SideBar';
 import PropTypes from 'prop-types';
 
 const LayoutStyles = {
-    container: {
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    main: {
-        display: 'flex',
-        flexGrow: 1,
-    },
-    content: {
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        backgroundColor: '#152027',
-        margin: '0',
-        height: '100%',
-        overflowY: 'auto',
-    },
+  container: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  main: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+  content: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    backgroundColor: '#152027',
+    margin: '0',
+    height: '100%',
+    overflowY: 'auto',
+  },
 };
 
-export default function Layout({children}) {
-    // const renderContent = () => {
-    //     switch (selectedOption) {
-    //         case 0:
-    //             return <UsersView />;
-    //         case 1:
-    //             return <ProjectTable />
-    //         case 2:
-    //             return <ReportsView />;
-    //         default:
-    //             return <></>;
-    //     }
-    // };
-
-    return (
-        <Box sx={LayoutStyles.container}>
-            <NavBar />
-            <Box sx={LayoutStyles.main}>
-                <SideBar />
-                <Box sx={LayoutStyles.content}>
-                    {children}
-                </Box>
-            </Box>
-        </Box>
-    );
+export default function Layout({ children }) {
+  return (
+    <Box sx={LayoutStyles.container}>
+      <NavBar />
+      <Box sx={LayoutStyles.main}>
+        <SideBar />
+        <Box sx={LayoutStyles.content}>{children}</Box>
+      </Box>
+    </Box>
+  );
 }
 
 Layout.propTypes = {
-    children: PropTypes.node.isRequired,
-}
+  children: PropTypes.node.isRequired,
+};

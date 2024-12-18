@@ -1,6 +1,5 @@
 import Project from '../models/project.model.js';
 
-// Create a new project
 export const createProject = async (req, res) => {
   try {
     const project = new Project(req.body);
@@ -11,7 +10,6 @@ export const createProject = async (req, res) => {
   }
 };
 
-// Bulk create projects
 export const createProjects = async (req, res) => {
   try {
     const projects = await Project.insertMany(req.body);
@@ -22,7 +20,6 @@ export const createProjects = async (req, res) => {
   }
 };
 
-// Get all projects with optional filters
 export const getProjects = async (req, res) => {
   try {
     const filters = req.query;
@@ -33,7 +30,6 @@ export const getProjects = async (req, res) => {
   }
 };
 
-// Get a single project by ID
 export const getProjectById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -47,7 +43,6 @@ export const getProjectById = async (req, res) => {
   }
 };
 
-// Update a project by ID
 export const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,7 +59,6 @@ export const updateProject = async (req, res) => {
   }
 };
 
-// Delete a project by ID
 export const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;

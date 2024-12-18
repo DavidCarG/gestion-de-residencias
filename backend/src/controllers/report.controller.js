@@ -13,7 +13,6 @@ export const createReport = async (req, res) => {
 
     await newReport.save();
 
-    // Increment the report count of the associated project
     await Project.findByIdAndUpdate(projectId, { $inc: { reportCount: 1 } });
 
     res
@@ -25,7 +24,6 @@ export const createReport = async (req, res) => {
   }
 };
 
-// Bulk create reports
 export const createReports = async (req, res) => {
   try {
     const reports = await Report.insertMany(req.body);
