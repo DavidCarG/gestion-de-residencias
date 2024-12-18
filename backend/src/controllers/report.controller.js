@@ -25,6 +25,17 @@ export const createReport = async (req, res) => {
   }
 };
 
+// Bulk create reports
+export const createReports = async (req, res) => {
+  try {
+    const reports = await Report.insertMany(req.body);
+    res.status(201).json(reports);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });
+  }
+};
+
 export const getReports = async (req, res) => {
   try {
     const reports = await Report.find()

@@ -2,7 +2,6 @@ import User from '../models/user.model.js'; // Import the User model
 import bcrypt from 'bcryptjs'; // If you want to hash passwords before storing them
 import jwt from 'jsonwebtoken'; // If you are using JWT for authentication
 
-
 // Create a new user
 export const createUser = async (req, res) => {
   const { name, email, passwordHash, role, permissions } = req.body;
@@ -26,10 +25,23 @@ export const createUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    res
+      .status(201)
+      .json({ message: 'User created successfully', user: newUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error creating user' });
+  }
+};
+
+// Bulk create users
+export const createUsers = async (req, res) => {
+  try {
+    const users = await User.insertMany(req.body);
+    res.status(201).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -127,7 +139,9 @@ export const authenticateUser = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
 
     res.status(200).json({ message: 'Authentication successful', token });
   } catch (error) {

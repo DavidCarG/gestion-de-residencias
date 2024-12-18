@@ -7,19 +7,16 @@ import {
   getUserById,
   getUsers,
   updateUser,
+  createUsers,
 } from '../controllers/user.controller.js';
 
 const router = Router();
 
 router.post('/users', createUser);
+router.post('/users/bulk', createUsers);
 router.get('/users/:id', getUserById);
 router.get('/users', getUsers);
 router.patch('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
-
-// router.post('/register', validateSchema(registerSchema), register);
-// router.post('/login', validateSchema(loginSchema), login);
-// router.post('/logout', logout);
-// router.get('/profile', authRequired, profile);
 
 export default router;
