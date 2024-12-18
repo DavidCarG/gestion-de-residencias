@@ -29,9 +29,9 @@ createRoot(document.getElementById('root')).render(
         <Router>
           <CssBaseline />
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<App />} />
+            <Route path="/home" element={<App />} />
             <Route path="/proyectos" element={<ProjectsView />} />
             <Route path="/usuarios" element={<UsersView />} />
             <Route path="/reportes" element={<ReportsView />} />

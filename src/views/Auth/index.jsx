@@ -92,8 +92,13 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         if (res.data.success) {
-          dispatch(setUser({ username: res.data.user.username, email: res.data.user.email }));
-          navigate('/');
+          dispatch(
+            setUser({
+              username: res.data.user.username,
+              email: res.data.user.email,
+            }),
+          );
+          navigate('/home');
         }
       })
       .catch((error) => {
