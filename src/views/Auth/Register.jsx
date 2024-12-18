@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 
 const styles = {
   container: {
@@ -147,9 +147,9 @@ const Register = () => {
 
           <p style={styles.footer}>
             ¿Ya tienes una cuenta?{' '}
-            <a href="/login" style={styles.link}>
+            <Link to="/" style={styles.link}>
               Iniciar Sesión
-            </a>
+            </Link>
           </p>
         </form>
       </div>

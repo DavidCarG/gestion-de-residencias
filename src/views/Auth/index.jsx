@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/userSlice';
 
@@ -146,9 +146,9 @@ const Login = () => {
 
           <p style={styles.footer}>
             ¿No tienes una cuenta?{' '}
-            <a href="/register" style={styles.link}>
+            <Link to="/register" style={styles.link}>
               Registrarse
-            </a>
+            </Link>
           </p>
         </form>
       </div>
