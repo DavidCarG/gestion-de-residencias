@@ -1,4 +1,5 @@
 import Report from '../models/report.model.js';
+import Project from '../models/project.model.js';
 
 export const createReport = async (req, res) => {
   const { projectId, userId, link } = req.body;
@@ -7,11 +8,17 @@ export const createReport = async (req, res) => {
     const newReport = new Report({
       projectId,
       userId,
-      link
+      link,
     });
 
     await newReport.save();
-    res.status(201).json({ message: 'Report created successfully', report: newReport });
+
+    // Increment the report count of the associated project
+    await Project.findByIdAndUpdate(projectId, { $inc: { reportCount: 1 } });
+
+    res
+      .status(201)
+      .json({ message: 'Report created successfully', report: newReport });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error creating report' });
@@ -34,10 +41,14 @@ export const getReportsByProjectId = async (req, res) => {
   const { projectId } = req.params;
 
   try {
-    const reports = await Report.find({ projectId })
-      .populate('userId', 'name email');
+    const reports = await Report.find({ projectId }).populate(
+      'userId',
+      'name email',
+    );
     if (reports.length === 0) {
-      return res.status(404).json({ message: 'No reports found for this project' });
+      return res
+        .status(404)
+        .json({ message: 'No reports found for this project' });
     }
     res.status(200).json(reports);
   } catch (error) {
