@@ -15,26 +15,29 @@ import { addLocale, locale } from 'primereact/api';
 import es from './assets/esPrimeReact.json';
 import Login from './views/Auth/index.jsx';
 import Register from './views/Auth/Register.jsx';
+import { Provider } from 'react-redux';
+import store from './store';
 
 addLocale('es', es);
 locale('es');
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      {' '}
-      {/* or darkTheme */}
-      <Router>
-        <CssBaseline />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<App />} />
-          <Route path="/proyectos" element={<ProjectsView />} />
-          <Route path="/usuarios" element={<UsersView />} />
-          <Route path="/reportes" element={<ReportsView />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={darkTheme}>
+        {/* or darkTheme */}
+        <Router>
+          <CssBaseline />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<App />} />
+            <Route path="/proyectos" element={<ProjectsView />} />
+            <Route path="/usuarios" element={<UsersView />} />
+            <Route path="/reportes" element={<ReportsView />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   </StrictMode>,
 );

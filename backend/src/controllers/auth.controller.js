@@ -70,7 +70,14 @@ export const login = async (req, res) => {
     const token = await createAccessToken({ id: userFound._id });
 
     res.cookie('token', token);
-    res.json('Success');
+    res.json({
+      success: true,
+      message: 'Success',
+      user: {
+        username: userFound.username,
+        email: userFound.email,
+      },
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

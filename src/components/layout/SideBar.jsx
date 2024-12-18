@@ -1,6 +1,7 @@
 import { Divider, Stack } from '@mui/material';
 import UserOptions from './UserOptions';
 import OptionsMenu from './OptionsMenu';
+import { useSelector } from 'react-redux';
 
 const sidebarStyles = {
   innerStack: {
@@ -14,12 +15,17 @@ const sidebarStyles = {
 };
 
 export default function SideBar() {
+  const { username, email } = useSelector((state) => state.user);
+
   return (
     <Stack sx={sidebarStyles.innerStack}>
       <OptionsMenu />
       <Stack spacing={2}>
         <Divider />
-        {/*<UserOptions />*/}
+        <div>
+          <p>Username: {username}</p>
+          <p>Email: {email}</p>
+        </div>
       </Stack>
     </Stack>
   );

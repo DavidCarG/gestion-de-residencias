@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/userSlice';
 
 const styles = {
   container: {
@@ -81,6 +83,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +91,8 @@ const Login = () => {
       .post(import.meta.env.VITE_API_BASE_URL_LOGIN, { email, password })
       .then((res) => {
         console.log(res);
-        if (res.data == 'Success') {
+        if (res.data.success) {
+          dispatch(setUser({ username: res.data.user.username, email: res.data.user.email }));
           navigate('/');
         }
       })
