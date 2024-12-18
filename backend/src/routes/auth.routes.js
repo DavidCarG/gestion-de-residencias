@@ -1,10 +1,12 @@
 import { Router } from 'express';
+import { register, login, logout } from '../controllers/auth.controller.js';
+import { authRequired } from '../middlewares/validateToken.js';
 
 const router = Router();
 
-// router.post('/register', validateSchema(registerSchema), register);
-// router.post('/login', validateSchema(loginSchema), login);
-// router.post('/logout', logout);
-// router.get('/profile', authRequired, profile);
+// Public routes
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', authRequired, logout);
 
 export default router;
