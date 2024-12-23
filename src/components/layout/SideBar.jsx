@@ -34,15 +34,21 @@ export default function SideBar() {
       <OptionsMenu />
       <Stack spacing={2}>
         <Divider />
-        <div style={sidebarStyles.userContainer}>
-          <Avatar sx={sidebarStyles.avatar}>{username.charAt(0)}</Avatar>
-          <div style={sidebarStyles.userInfo}>
-            <Typography variant="body1">{username}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              {email}
-            </Typography>
+        {username && email ? (
+          <div style={sidebarStyles.userContainer}>
+            <Avatar sx={sidebarStyles.avatar}>{username.charAt(0)}</Avatar>
+            <div style={sidebarStyles.userInfo}>
+              <Typography variant="body1">{username}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {email}
+              </Typography>
+            </div>
           </div>
-        </div>
+        ) : (
+          <Typography variant="body2" color="textSecondary">
+            User information not available
+          </Typography>
+        )}
       </Stack>
     </Stack>
   );
