@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import NavBar from './NavBar';
 import SideBar from './SideBar';
 import PropTypes from 'prop-types';
 
@@ -28,7 +27,6 @@ const LayoutStyles = {
 export default function Layout({ children }) {
   return (
     <Box sx={LayoutStyles.container}>
-      <NavBar />
       <Box sx={LayoutStyles.main}>
         <SideBar />
         <Box sx={LayoutStyles.content}>{children}</Box>

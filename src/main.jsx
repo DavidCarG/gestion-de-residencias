@@ -17,6 +17,7 @@ import Login from './views/Auth/index.jsx';
 import Register from './views/Auth/Register.jsx';
 import { Provider } from 'react-redux';
 import store from './store';
+import NavBar from './components/layout/NavBar.jsx';
 
 addLocale('es', es);
 locale('es');
@@ -28,9 +29,10 @@ createRoot(document.getElementById('root')).render(
         {/* or darkTheme */}
         <Router>
           <CssBaseline />
+          <NavBar />
           <Routes>
             {/* <Route path="/" element={<Login />} /> */}
-                        <Route path="/" element={<App />} />
+            <Route path="/" element={<App />} />
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<App />} />
             <Route path="/proyectos" element={<ProjectsView />} />
