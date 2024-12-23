@@ -1,7 +1,6 @@
 import ReportsTable from '../../components/ReportsTable';
 import { fetchReports } from '../../api/reports';
 import { useFetch } from '../../hooks/useFetch';
-import Layout from '../../components/layout';
 
 const formatData = (data) => {
   return data.map((report) => ({
@@ -23,9 +22,7 @@ const ProjectsView = () => {
   const formattedData = data ? formatData(data) : [];
 
   return (
-    <Layout>
       <ReportsTable data={formattedData} loading={loading} error={error} />
-    </Layout>
   );
 };
 
