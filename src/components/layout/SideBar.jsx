@@ -1,16 +1,15 @@
-import { Divider, Stack, Typography, Avatar } from '@mui/material';
-import UserOptions from './UserOptions';
+import { Divider, Stack, Typography, Avatar, Box } from '@mui/material';
 import OptionsMenu from './OptionsMenu';
 import { useSelector } from 'react-redux';
 
 const sidebarStyles = {
   innerStack: {
     height: '100%',
-    maxWidth: '20vw',
-    padding: '9vh 0px 10px 0px',
+    width: '10vw',
+    padding: '0px 0px 10px 0px',
     justifyContent: 'space-between',
-    flexGrow: 1,
     borderRight: '0.5px solid #707070',
+    transition: 'all 0.5s',
   },
   userContainer: {
     display: 'flex',
@@ -31,7 +30,16 @@ export default function SideBar() {
 
   return (
     <Stack sx={sidebarStyles.innerStack}>
-      <OptionsMenu />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <OptionsMenu />
+      </Box>
       <Stack spacing={2}>
         <Divider />
         {username && email ? (
