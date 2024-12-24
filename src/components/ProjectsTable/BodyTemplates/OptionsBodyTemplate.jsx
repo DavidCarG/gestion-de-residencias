@@ -1,18 +1,14 @@
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { Menu } from 'primereact/menu';
-import { useRef, useState, useEffect } from 'react';
-import { Dialog } from 'primereact/dialog';
-import { MultiSelect } from 'primereact/multiselect';
-import {
-  deleteProject,
-  updateProject,
-  fetchProjects,
-} from '../../api/projects';
-import { fetchUserById, fetchUsers } from '../../api/users';
-import { createReport } from '../../api/reports';
-import { InputText } from 'primereact/inputtext';
-import NewProjectModal from './NewProjectModal';
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { Menu } from "primereact/menu";
+import { useRef, useState, useEffect } from "react";
+import { Dialog } from "primereact/dialog";
+import { MultiSelect } from "primereact/multiselect";
+import { deleteProject, updateProject } from "../../../api/projects";
+import { fetchUserById, fetchUsers } from "../../../api/users";
+import { createReport } from "../../../api/reports";
+import { InputText } from "primereact/inputtext";
+import NewProjectModal from "../Modals/NewProjectModal";
 
 const handleModify = (id, project) => {
   updateProject(id, project);
@@ -47,14 +43,11 @@ export const OptionsBodyTemplate = (rowData) => {
 
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     fetchUsers().then(setUsers);
-    fetchProjects().then(setProjects);
   }, []);
 
   const handleReportModalOpen = () => setReportModalOpen(true);
@@ -90,23 +83,23 @@ export const OptionsBodyTemplate = (rowData) => {
 
   const items = [
     {
-      label: 'Asignar reporte',
-      icon: 'pi pi-file',
+      label: "Asignar reporte",
+      icon: "pi pi-file",
       command: () => handleReportModalOpen(),
     },
     {
-      label: 'Asignar usuario',
-      icon: 'pi pi-user',
+      label: "Asignar usuario",
+      icon: "pi pi-user",
       command: () => handleAssignUserModalOpen(),
     },
     {
-      label: 'Modificar',
-      icon: 'pi pi-pencil',
+      label: "Modificar",
+      icon: "pi pi-pencil",
       command: () => handleModalOpen(),
     },
     {
-      label: 'Eliminar',
-      icon: 'pi pi-trash',
+      label: "Eliminar",
+      icon: "pi pi-trash",
       command: () => confirmDelete(rowData._id),
     },
   ];
@@ -125,7 +118,7 @@ export const OptionsBodyTemplate = (rowData) => {
       <Dialog
         header="Confirmar eliminación"
         visible={deleteDialogVisible}
-        style={{ width: '350px' }}
+        style={{ width: "350px" }}
         footer={
           <div>
             <Button
@@ -155,7 +148,7 @@ export const OptionsBodyTemplate = (rowData) => {
       <Dialog
         header="Asignar Reporte"
         visible={reportModalOpen}
-        style={{ width: '450px' }}
+        style={{ width: "450px" }}
         footer={
           <div>
             <Button
@@ -180,19 +173,19 @@ export const OptionsBodyTemplate = (rowData) => {
           onChange={(e) => setSelectedUser(e.value)}
           optionLabel="name"
           placeholder="Seleccione un usuario"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
         <InputText
           value={link}
           onChange={(e) => setLink(e.target.value)}
           placeholder="Ingrese el enlace"
-          style={{ width: '100%', marginTop: '1rem' }}
+          style={{ width: "100%", marginTop: "1rem" }}
         />
       </Dialog>
       <Dialog
         header="Asignar Usuario"
         visible={assignUserModalOpen}
-        style={{ width: '450px' }}
+        style={{ width: "450px" }}
         footer={
           <div>
             <Button
@@ -217,7 +210,7 @@ export const OptionsBodyTemplate = (rowData) => {
           onChange={(e) => setSelectedUsers(e.value)}
           optionLabel="name"
           placeholder="Seleccione usuarios"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
       </Dialog>
     </>

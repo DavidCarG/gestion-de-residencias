@@ -1,22 +1,21 @@
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { useState } from 'react';
-import { OptionsBodyTemplate } from './BodyTemplates';
-import {
-  StatusBodyTemplate,
-  StatusFilterTemplate,
-  ReportBodyTemplate,
-} from './AssignedColumnTemplate';
-import { Box, Alert } from '@mui/material';
-import NewProjectModal from './NewProjectModal';
-import CreateProject from './TableHeader';
-import { FilterMatchMode } from 'primereact/api';
-import PropTypes from 'prop-types';
-import { createProject } from '../../api/projects';
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { useState } from "react";
+import { OptionsBodyTemplate } from "./BodyTemplates/OptionsBodyTemplate";
+import { StatusBodyTemplate } from "./BodyTemplates/StatusBodyTemplate";
+import { Box, Alert } from "@mui/material";
+import NewProjectModal from "./Modals/NewProjectModal";
+import CreateProject from "./TableHeader";
+import { FilterMatchMode } from "primereact/api";
+import PropTypes from "prop-types";
+import { createProject } from "../../api/projects";
+import { ReportBodyTemplate } from "./BodyTemplates/ReportBodyTemplate";
+import { StatusFilterTemplate } from "./FilterTemplates/StatusFilterTemplate";
 
 export default function ProjectsTable({ data, loading, error }) {
   const [filters, setFilters] = useState({
     projectName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    requestingCompany: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     assigned: { value: null, matchMode: FilterMatchMode.EQUALS },
   });
 
@@ -26,7 +25,7 @@ export default function ProjectsTable({ data, loading, error }) {
   const handleModalClose = () => setIsModalOpen(false);
 
   return (
-    <Box margin={'5vh 2rem 7vh 2rem'}>
+    <Box margin={"5vh 2rem 7vh 2rem"}>
       {error && <Alert severity="error">{error}</Alert>}
       <CreateProject onOpenModal={handleModalOpen} />
       <NewProjectModal
@@ -45,11 +44,11 @@ export default function ProjectsTable({ data, loading, error }) {
         size="small"
         emptyMessage="No se encontraron proyectos."
         filterDisplay="row"
-        globalFilterFields={['projectName', 'assigned']}
+        globalFilterFields={["projectName", "assigned"]}
       >
         <Column
           header="Proyecto"
-          style={{ width: '25%' }}
+          style={{ width: "25%" }}
           field="projectName"
           filter
           sortable
@@ -57,7 +56,7 @@ export default function ProjectsTable({ data, loading, error }) {
         />
         <Column
           header="Compañía"
-          style={{ width: '20%' }}
+          style={{ width: "20%" }}
           field="requestingCompany"
           filter
           sortable
@@ -65,7 +64,7 @@ export default function ProjectsTable({ data, loading, error }) {
         />
         <Column
           header="Estatus"
-          style={{ width: '15%' }}
+          style={{ width: "15%" }}
           field="assigned"
           body={StatusBodyTemplate}
           filter
@@ -74,30 +73,30 @@ export default function ProjectsTable({ data, loading, error }) {
         />
         <Column
           header="Fecha de creación"
-          style={{ width: '10%' }}
+          style={{ width: "10%" }}
           field="releaseDate"
           sortable
         />
         <Column
           header="Supervisor"
-          style={{ width: '10%' }}
+          style={{ width: "10%" }}
           field="advisor"
           sortable
         />
         <Column
           header="Carrera"
-          style={{ width: '10%' }}
+          style={{ width: "10%" }}
           field="career"
           sortable
         />
         <Column
           header="Reportes"
-          style={{ width: '5%' }}
+          style={{ width: "5%" }}
           body={ReportBodyTemplate}
           field="reports"
           sortable
         />
-        <Column style={{ width: '5%' }} body={OptionsBodyTemplate} />
+        <Column style={{ width: "5%" }} body={OptionsBodyTemplate} />
       </DataTable>
     </Box>
   );
