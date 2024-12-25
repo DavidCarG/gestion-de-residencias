@@ -1,93 +1,103 @@
-import { useState } from "react";
-import { deleteUser, updateUser } from "../../../api/users";
-import { useRef } from "react";
+import { useState } from 'react';
+import { deleteUser } from '../../../api/users';
+import { useRef } from 'react';
 
-import { Button } from "primereact/button";
-import { Menu } from "primereact/menu";
-import { Dialog } from "primereact/dialog";
-import UserModal from "../Modals/NewUserModal";
-
-const handleModify = (id, user) => {
-  updateUser(id, user);
-};
+import { Button } from 'primereact/button';
+import { Menu } from 'primereact/menu';
+import { Dialog } from 'primereact/dialog';
+import UserModal from '../Modals/NewUserModal';
+import { Toast } from 'primereact/toast';
 
 const handleDelete = (id) => {
-  deleteUser(id);
+    return deleteUser(id);
 };
 
 export const OptionsBodyTemplate = (rowData) => {
-  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+    const toast = useRef(null);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+    const showInfo = (msg) => {
+        toast.current.show({
+            severity: 'info',
+            summary: 'Exito',
+            detail: msg,
+            life: 3000,
+        });
+    };
 
-  const handleModalOpen = () => setIsModalOpen(true);
-  const handleModalClose = () => setIsModalOpen(false);
+    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
-  const confirmDelete = (id) => {
-    setSelectedId(id);
-    setDeleteDialogVisible(true);
-  };
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onDeleteConfirmed = () => {
-    handleDelete(selectedId);
-    setDeleteDialogVisible(false);
-  };
+    const handleModalOpen = () => setIsModalOpen(true);
+    const handleModalClose = () => setIsModalOpen(false);
 
-  const items = [
-    {
-      label: "Modificar",
-      icon: "pi pi-pencil",
-      command: () => handleModalOpen(),
-    },
-    {
-      label: "Eliminar",
-      icon: "pi pi-trash",
-      command: () => confirmDelete(rowData._id),
-    },
-  ];
+    const confirmDelete = (id) => {
+        setSelectedId(id);
+        setDeleteDialogVisible(true);
+    };
 
-  const menu = useRef(null);
+    const onDeleteConfirmed = async () => {
+        const response = await handleDelete(selectedId);
+        showInfo(response.data.message);
 
-  return (
-    <>
-      <Button
-        icon="pi pi-ellipsis-v"
-        text
-        onClick={(e) => menu.current.toggle(e)}
-      >
-        <Menu model={items} popup ref={menu} />
-      </Button>
-      <Dialog
-        header="Confirmar eliminación"
-        visible={deleteDialogVisible}
-        style={{ width: "350px" }}
-        footer={
-          <div>
+        setDeleteDialogVisible(false);
+    };
+
+    const items = [
+        {
+            label: 'Modificar',
+            icon: 'pi pi-pencil',
+            command: () => handleModalOpen(),
+        },
+        {
+            label: 'Eliminar',
+            icon: 'pi pi-trash',
+            command: () => confirmDelete(rowData._id),
+        },
+    ];
+
+    const menu = useRef(null);
+
+    return (
+        <>
+            <Toast ref={toast} />
             <Button
-              label="No"
-              icon="pi pi-times"
-              onClick={() => setDeleteDialogVisible(false)}
-              className="p-button-text"
+                icon="pi pi-ellipsis-v"
+                text
+                onClick={(e) => menu.current.toggle(e)}
+            >
+                <Menu model={items} popup ref={menu} />
+            </Button>
+            <Dialog
+                header="Confirmar eliminación"
+                visible={deleteDialogVisible}
+                style={{ width: '350px' }}
+                footer={
+                    <div>
+                        <Button
+                            label="No"
+                            icon="pi pi-times"
+                            onClick={() => setDeleteDialogVisible(false)}
+                            className="p-button-text"
+                        />
+                        <Button
+                            label="Sí"
+                            icon="pi pi-check"
+                            onClick={onDeleteConfirmed}
+                            autoFocus
+                        />
+                    </div>
+                }
+                onHide={() => setDeleteDialogVisible(false)}
+            >
+                <p>¿Está seguro de que desea eliminar este proyecto?</p>
+            </Dialog>
+            <UserModal
+                open={isModalOpen}
+                handleClose={handleModalClose}
+                data={rowData}
             />
-            <Button
-              label="Sí"
-              icon="pi pi-check"
-              onClick={onDeleteConfirmed}
-              autoFocus
-            />
-          </div>
-        }
-        onHide={() => setDeleteDialogVisible(false)}
-      >
-        <p>¿Está seguro de que desea eliminar este proyecto?</p>
-      </Dialog>
-      <UserModal
-        open={isModalOpen}
-        handleClose={handleModalClose}
-        handleSave={handleModify}
-        data={rowData}
-      />
-    </>
-  );
+        </>
+    );
 };

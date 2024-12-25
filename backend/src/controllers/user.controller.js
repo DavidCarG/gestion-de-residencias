@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 export const createUser = async (req, res) => {
   const { name, email, passwordHash, role, permissions } = req.body;
@@ -86,8 +86,8 @@ export const updateUser = async (req, res) => {
     await user.save();
     res.status(200).json({ message: 'User updated successfully', user });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error updating user' });
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Error updating user', error: error.message });
   }
 };
 
@@ -107,27 +107,27 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const authenticateUser = async (req, res) => {
-  const { email, password } = req.body;
+// export const authenticateUser = async (req, res) => {
+//   const { email, password } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+//     const isMatch = await bcrypt.compare(password, user.passwordHash);
+//     if (!isMatch) {
+//       return res.status(400).json({ message: 'Invalid credentials' });
+//     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: '1h',
+//     });
 
-    res.status(200).json({ message: 'Authentication successful', token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error authenticating user' });
-  }
-};
+//     res.status(200).json({ message: 'Authentication successful', token });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Error authenticating user' });
+//   }
+// };

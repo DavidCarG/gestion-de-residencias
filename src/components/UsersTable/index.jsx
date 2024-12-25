@@ -6,13 +6,13 @@ import { FilterMatchMode } from "primereact/api";
 import TableHeader from "./TableHeader";
 import RoleFilterTemplate from "./FilterTemplates/RoleFilterTemplate";
 import { OptionsBodyTemplate } from "./BodyTemplates/OptionsBodyTemplate";
-import { createUser } from "../../api/users";
 import PropTypes from "prop-types";
 import { RoleBodyTemplate } from "./BodyTemplates/RoleBodyTemplate";
 import UserModal from "./Modals/NewUserModal";
 
 const UsersTable = ({ data, loading, error }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
@@ -25,15 +25,15 @@ const UsersTable = ({ data, loading, error }) => {
   return (
     <Box
       sx={{
-        margin: "12vh 2rem 3vh 2rem",
+        margin: "3rem 2rem",
+        height: "90vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       {error && <Box sx={{ color: "red", marginBottom: "1rem" }}>{error}</Box>}
-      <UserModal
-        handleClose={handleModalClose}
-        handleSave={createUser}
-        open={isModalOpen}
-      />
+      <UserModal handleClose={handleModalClose} open={isModalOpen} />
       <DataTable
         emptyMessage="No se encontraron usuarios."
         filterDisplay="row"
@@ -44,7 +44,12 @@ const UsersTable = ({ data, loading, error }) => {
         paginator
         removableSort
         rows={5}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[5, 10, 15]}
+        scrollable
+        scrollHeight="70vh"
+        selectionMode="single"
+        selection={selectedProduct}
+        onSelectionChange={(e) => setSelectedProduct(e.value)}
         size="small"
         stripedRows
         value={data}
