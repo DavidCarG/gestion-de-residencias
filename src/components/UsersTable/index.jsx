@@ -10,8 +10,10 @@ import PropTypes from 'prop-types';
 import { RoleBodyTemplate } from './BodyTemplates/RoleBodyTemplate';
 import UserModal from './Modals/NewUserModal';
 import { defaultTableProps } from '../consts';
+import { useUsersContext } from '../../context/Users';
+import { useEffect } from 'react';
 
-const UsersTable = ({ data, loading, error }) => {
+const UsersTable = ({ data: initialData, loading, error }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const handleModalOpen = () => setIsModalOpen(true);
@@ -22,6 +24,21 @@ const UsersTable = ({ data, loading, error }) => {
         email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         role: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
+
+    const [data, setData] = useState(initialData);
+    const { tableData } = useUsersContext();
+
+    useEffect(() => {
+        if (initialData && initialData.length > 0) {
+            setData(initialData);
+        }
+    }, [initialData]);
+
+    useEffect(() => {
+        if (tableData && tableData.length > 0) {
+            setData(tableData);
+        }
+    }, [tableData]);
 
     return (
         <Box

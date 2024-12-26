@@ -1,19 +1,22 @@
-import { useState } from 'react';
-import { deleteUser } from '../../../api/users';
-import { useRef } from 'react';
-
+import { useState, useRef } from 'react';
+import { deleteUser, fetchUsers } from '../../../api/users';
 import { Button } from 'primereact/button';
 import { Menu } from 'primereact/menu';
 import { Dialog } from 'primereact/dialog';
-import UserModal from '../Modals/NewUserModal';
 import { Toast } from 'primereact/toast';
+import UserModal from '../Modals/NewUserModal';
+import { useUsersContext } from '../../../context/Users';
 
-const handleDelete = (id) => {
-    return deleteUser(id);
-};
+const handleDelete = (id) => deleteUser(id);
 
 export const OptionsBodyTemplate = (rowData) => {
+    const { updateTableData } = useUsersContext();
     const toast = useRef(null);
+    const menu = useRef(null);
+
+    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showInfo = (msg) => {
         toast.current.show({
@@ -23,11 +26,6 @@ export const OptionsBodyTemplate = (rowData) => {
             life: 3000,
         });
     };
-
-    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
-    const [selectedId, setSelectedId] = useState(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleModalOpen = () => setIsModalOpen(true);
     const handleModalClose = () => setIsModalOpen(false);
@@ -40,6 +38,9 @@ export const OptionsBodyTemplate = (rowData) => {
     const onDeleteConfirmed = async () => {
         const response = await handleDelete(selectedId);
         showInfo(response.data.message);
+
+        const newData = await fetchUsers();
+        updateTableData(newData);
 
         setDeleteDialogVisible(false);
     };
@@ -56,8 +57,6 @@ export const OptionsBodyTemplate = (rowData) => {
             command: () => confirmDelete(rowData._id),
         },
     ];
-
-    const menu = useRef(null);
 
     return (
         <>

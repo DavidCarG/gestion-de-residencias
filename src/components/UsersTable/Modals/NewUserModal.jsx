@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import {
     Modal,
     Box,
@@ -8,11 +10,9 @@ import {
     Select,
     MenuItem,
 } from '@mui/material';
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes
-import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
-import { createUser, updateUser } from '../../../api/users';
+import { createUser, fetchUsers, updateUser } from '../../../api/users';
+import { useUsersContext } from '../../../context/Users';
 
 const style = {
     position: 'absolute',
@@ -27,7 +27,25 @@ const style = {
 };
 
 function UserModal({ open, handleClose, data }) {
+    const { updateTableData } = useUsersContext();
     const toast = useRef(null);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        role: '',
+    });
+
+    useEffect(() => {
+        if (data) {
+            const { name, email, role } = data;
+            setFormData({
+                name,
+                email,
+                role,
+            });
+        }
+    }, [data]);
 
     const showSuccess = (msg) => {
         toast.current.show({
@@ -46,23 +64,6 @@ function UserModal({ open, handleClose, data }) {
             life: 3000,
         });
     };
-
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        role: '',
-    });
-
-    useEffect(() => {
-        if (data) {
-            const { name, email, role } = data;
-            setFormData({
-                name,
-                email,
-                role,
-            });
-        }
-    }, [data]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -84,6 +85,9 @@ function UserModal({ open, handleClose, data }) {
         } catch (error) {
             showError(error.message);
         }
+
+        const newData = await fetchUsers();
+        updateTableData(newData);
 
         handleClose();
     };
