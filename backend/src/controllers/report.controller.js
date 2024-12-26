@@ -39,7 +39,21 @@ export const getReports = async (req, res) => {
     const reports = await Report.find()
       .populate('projectId', 'projectName requestingCompany')
       .populate('userId', 'name email');
-    res.status(200).json(reports);
+
+    const formattedReports = reports.map((report) => ({
+      reportId: report._id,
+      projectId: report.projectId._id,
+      projectName: report.projectId.projectName,
+      requestingCompany: report.projectId.requestingCompany,
+      userId: report.userId._id,
+      userName: report.userId.name,
+      userEmail: report.userId.email,
+      link: report.link,
+      createdAt: report.createdAt,
+      updatedAt: report.updatedAt,
+    }));
+
+    res.status(200).json(formattedReports);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching reports' });

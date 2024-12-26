@@ -7,15 +7,31 @@ import { LinkBodyTemplate } from './BodyTemplates/LinkBodyTemplate';
 import PropTypes from 'prop-types';
 import { OptionsBodyTemplate } from './BodyTemplates/OptionsBodyTemplate';
 import { defaultTableProps } from '../consts';
+import { useReportsContext } from '../../context/Reports';
+import { useEffect } from 'react';
 import DateBodyTemplate from './BodyTemplates/DateBodyTemplate';
 
-const ReportsTable = ({ data, loading, error }) => {
+const ReportsTable = ({ data: initialData, loading, error }) => {
     const [filters, setFilters] = useState({
         userName: { value: null, matchMode: FilterMatchMode.CONTAINS },
         projectName: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
 
     const [selectedRow, setSelectedRow] = useState(null);
+    const [data, setData] = useState(initialData);
+    const { tableData } = useReportsContext();
+
+    useEffect(() => {
+        if (initialData && initialData.length > 0) {
+            setData(initialData);
+        }
+    }, [initialData]);
+
+    useEffect(() => {
+        if (tableData && tableData.length > 0) {
+            setData(tableData);
+        }
+    }, [tableData]);
 
     return (
         <Box
@@ -90,7 +106,7 @@ ReportsTable.propTypes = {
             createdAt: PropTypes.string.isRequired,
             updatedAt: PropTypes.string.isRequired,
         })
-    ).isRequired,
+    ),
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any,
 };
