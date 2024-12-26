@@ -4,66 +4,59 @@ import { Menu } from 'primereact/menu';
 import { useRef, useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { MultiSelect } from 'primereact/multiselect';
-import { deleteProject, updateProject } from '../../../api/projects';
-import { fetchUserById, fetchUsers } from '../../../api/users';
-import { createReport } from '../../../api/reports';
 import { InputText } from 'primereact/inputtext';
 import NewProjectModal from '../Modals/NewProjectModal';
+import {
+    deleteProject,
+    fetchProjects,
+    updateProject,
+} from '../../../api/projects';
+import { fetchUserById, fetchUsers } from '../../../api/users';
+import { createReport } from '../../../api/reports';
+import { useProjectsContext } from '../../../context/Projects';
 
-const handleModify = (id, project) => {
-    updateProject(id, project);
+// Handlers for project operations
+const handleModify = async (id, project) => {
+    await updateProject(id, project);
 };
 
-const handleDelete = (id) => {
-    deleteProject(id);
+const handleDelete = async (id) => {
+    await deleteProject(id);
 };
 
-const handleCreateReport = (report) => {
-    createReport(report);
+const handleCreateReport = async (report) => {
+    await createReport(report);
 };
 
 export const OptionsBodyTemplate = (rowData) => {
+    const { updateTableData } = useProjectsContext();
+
+    // State for modals and dialogs
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleModalOpen = () => setIsModalOpen(true);
-    const handleModalClose = () => setIsModalOpen(false);
-
-    const confirmDelete = (id) => {
-        setSelectedId(id);
-        setDeleteDialogVisible(true);
-    };
-
-    const onDeleteConfirmed = () => {
-        handleDelete(selectedId);
-        setDeleteDialogVisible(false);
-    };
-
     const [reportModalOpen, setReportModalOpen] = useState(false);
+    const [assignUserModalOpen, setAssignUserModalOpen] = useState(false);
+
+    // State for report creation
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [link, setLink] = useState('');
 
+    // State for user assignment
+    const [selectedUsers, setSelectedUsers] = useState([]);
+
+    // Fetch users for report and assignment modals
     useEffect(() => {
         fetchUsers().then(setUsers);
     }, []);
 
+    // Handlers for opening and closing modals
+    const handleModalOpen = () => setIsModalOpen(true);
+    const handleModalClose = () => setIsModalOpen(false);
+
     const handleReportModalOpen = () => setReportModalOpen(true);
     const handleReportModalClose = () => setReportModalOpen(false);
-
-    const handleSaveReport = () => {
-        handleCreateReport({
-            userId: selectedUser._id,
-            projectId: rowData._id,
-            link,
-        });
-        handleReportModalClose();
-    };
-
-    const [assignUserModalOpen, setAssignUserModalOpen] = useState(false);
-    const [selectedUsers, setSelectedUsers] = useState([]);
 
     const handleAssignUserModalOpen = () => {
         const assigneePromises = rowData.assignees.map((id) =>
@@ -72,17 +65,45 @@ export const OptionsBodyTemplate = (rowData) => {
         Promise.all(assigneePromises).then(setSelectedUsers);
         setAssignUserModalOpen(true);
     };
-
     const handleAssignUserModalClose = () => setAssignUserModalOpen(false);
 
-    const handleAssignUsers = () => {
-        handleModify(rowData._id, {
+    const updateTable = async () => {
+        const newData = await fetchProjects();
+        updateTableData(newData);
+    };
+
+    // Handlers for confirming actions
+    const confirmDelete = (id) => {
+        setSelectedId(id);
+        setDeleteDialogVisible(true);
+    };
+
+    const onDeleteConfirmed = async () => {
+        await handleDelete(selectedId);
+        await updateTable();
+        setDeleteDialogVisible(false);
+    };
+
+    const handleSaveReport = async () => {
+        await handleCreateReport({
+            userId: selectedUser._id,
+            projectId: rowData._id,
+            link,
+        });
+        await updateTable();
+        handleReportModalClose();
+    };
+
+    const handleAssignUsers = async () => {
+        await handleModify(rowData._id, {
             assigned: true,
             assignees: selectedUsers.map((user) => user._id),
         });
+        await updateTable();
         handleAssignUserModalClose();
     };
 
+    // Menu items for project options
     const items = [
         {
             label: 'Asignar reporte',
@@ -117,6 +138,8 @@ export const OptionsBodyTemplate = (rowData) => {
             >
                 <Menu model={items} popup ref={menu} />
             </Button>
+
+            {/* Delete Confirmation Dialog */}
             <Dialog
                 header="Confirmar eliminación"
                 visible={deleteDialogVisible}
@@ -141,11 +164,15 @@ export const OptionsBodyTemplate = (rowData) => {
             >
                 <p>¿Está seguro de que desea eliminar este proyecto?</p>
             </Dialog>
+
+            {/* New Project Modal */}
             <NewProjectModal
                 open={isModalOpen}
                 handleClose={handleModalClose}
                 data={rowData}
             />
+
+            {/* Report Creation Dialog */}
             <Dialog
                 header="Asignar Reporte"
                 visible={reportModalOpen}
@@ -183,6 +210,8 @@ export const OptionsBodyTemplate = (rowData) => {
                     style={{ width: '100%', marginTop: '1rem' }}
                 />
             </Dialog>
+
+            {/* User Assignment Dialog */}
             <Dialog
                 header="Asignar Usuario"
                 visible={assignUserModalOpen}
