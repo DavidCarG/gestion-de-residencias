@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import { Modal, Box, TextField, Button } from '@mui/material';
 import Grid from '@mui/material/Grid2'; // Grid2 import
 import PropTypes from 'prop-types';
-import { createProject, updateProject } from '../../../api/projects';
+import {
+    createProject,
+    fetchProjects,
+    updateProject,
+} from '../../../api/projects';
+import { useProjectsContext } from '../../../context/Projects';
 
 const NewProjectModal = ({ open, handleClose, data }) => {
     const [formData, setFormData] = useState({
@@ -17,6 +22,8 @@ const NewProjectModal = ({ open, handleClose, data }) => {
         career: '',
         summary: '',
     });
+
+    const { updateTableData } = useProjectsContext();
 
     useEffect(() => {
         if (data) {
@@ -54,15 +61,20 @@ const NewProjectModal = ({ open, handleClose, data }) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const formattedData = {
             ...formData,
             releaseDate: new Date(formData.releaseDate),
         };
 
-        data
-            ? updateProject(data._id, formattedData)
-            : createProject(formattedData);
+        if (data) {
+            await updateProject(data._id, formattedData);
+        } else {
+            await createProject(formattedData);
+        }
+
+        const newData = await fetchProjects();
+        updateTableData(newData);
         handleClose();
     };
 

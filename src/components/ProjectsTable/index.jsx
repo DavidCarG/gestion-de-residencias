@@ -12,8 +12,10 @@ import { ReportBodyTemplate } from './BodyTemplates/ReportBodyTemplate';
 import { StatusFilterTemplate } from './FilterTemplates/StatusFilterTemplate';
 import { defaultTableProps } from '../consts';
 import DateBodyTemplate from './BodyTemplates/DateBodyTemplate';
+import { useProjectsContext } from '../../context/Projects';
+import { useEffect } from 'react';
 
-export default function ProjectsTable({ data, loading, error }) {
+export default function ProjectsTable({ data: initialData, loading, error }) {
     const [filters, setFilters] = useState({
         projectName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         requestingCompany: {
@@ -22,6 +24,21 @@ export default function ProjectsTable({ data, loading, error }) {
         },
         assigned: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
+
+    const [data, setData] = useState(initialData);
+    const { tableData } = useProjectsContext();
+
+    useEffect(() => {
+        if (initialData && initialData.length > 0) {
+            setData(initialData);
+        }
+    }, [initialData]);
+
+    useEffect(() => {
+        if (tableData && tableData.length > 0) {
+            setData(tableData);
+        }
+    }, [tableData]);
 
     const [selectedRow, setSelectedRow] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
