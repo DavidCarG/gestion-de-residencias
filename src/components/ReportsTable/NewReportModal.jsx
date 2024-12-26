@@ -39,7 +39,6 @@ const NewReportModal = ({ open, handleClose, data }) => {
         });
 
         const newData = await fetchReports();
-        console.log('newData', newData);
         updateTableData(newData);
         handleClose();
     };

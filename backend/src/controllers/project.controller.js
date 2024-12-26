@@ -1,4 +1,5 @@
 import Project from '../models/project.model.js';
+import Report from '../models/report.model.js';
 
 export const createProject = async (req, res) => {
   try {
@@ -66,7 +67,8 @@ export const deleteProject = async (req, res) => {
     if (!deletedProject) {
       return res.status(404).json({ message: 'Project not found' });
     }
-    res.status(200).json({ message: 'Project deleted successfully' });
+    await Report.deleteMany({ projectId: id });
+    res.status(200).json({ message: 'Project and associated reports deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
