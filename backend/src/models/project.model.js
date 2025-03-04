@@ -48,4 +48,13 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+projectSchema.statics.updateReportCount = async function (oldProjectId, newProjectId) {
+  if (oldProjectId) {
+    await this.findByIdAndUpdate(oldProjectId, { $inc: { reportCount: -1 } });
+  }
+  if (newProjectId) {
+    await this.findByIdAndUpdate(newProjectId, { $inc: { reportCount: 1 } });
+  }
+};
+
 export default mongoose.model('Project', projectSchema);

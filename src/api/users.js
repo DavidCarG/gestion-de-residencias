@@ -2,7 +2,7 @@ import api from './index';
 
 export const createUser = async (user) => {
     const response = await api.post('/users', user);
-    return response.data;
+    return response;
 }
 
 export const fetchUserById = async (id) => {
@@ -17,10 +17,10 @@ export const fetchUsers = async () => {
 
 export const updateUser = async (id, user) => {
     const response = await api.patch(`/users/${id}`, user);
-    return response.data;
+    return response;
 }
 
 export const deleteUser = async (id) => {
     const response = await api.delete(`/users/${id}`);
-    return response.data;
+    return response;
 }

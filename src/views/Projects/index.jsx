@@ -1,16 +1,16 @@
 import { useFetch } from '../../hooks/useFetch';
 import { fetchProjects } from '../../api/projects';
 import ProjectsTable from '../../components/ProjectsTable';
-import Layout from '../../components/layout';
+import ProjectsProvider from '../../context/Projects/ProjectsProvider';
 
 const ProjectsView = () => {
-  const response = useFetch(fetchProjects);
+    const response = useFetch(fetchProjects);
 
-  return (
-    <Layout>
-      <ProjectsTable {...response} />
-    </Layout>
-  );
+    return (
+        <ProjectsProvider>
+            <ProjectsTable {...response} />
+        </ProjectsProvider>
+    );
 };
 
 export default ProjectsView;

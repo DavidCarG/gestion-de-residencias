@@ -39,7 +39,21 @@ export const getReports = async (req, res) => {
     const reports = await Report.find()
       .populate('projectId', 'projectName requestingCompany')
       .populate('userId', 'name email');
-    res.status(200).json(reports);
+
+    const formattedReports = reports.map((report) => ({
+      reportId: report._id,
+      projectId: report.projectId._id,
+      projectName: report.projectId.projectName,
+      requestingCompany: report.projectId.requestingCompany,
+      userId: report.userId._id,
+      userName: report.userId.name,
+      userEmail: report.userId.email,
+      link: report.link,
+      createdAt: report.createdAt,
+      updatedAt: report.updatedAt,
+    }));
+
+    res.status(200).json(formattedReports);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching reports' });
@@ -93,11 +107,14 @@ export const updateReport = async (req, res) => {
       return res.status(404).json({ message: 'Report not found' });
     }
 
+    const oldProjectId = report.projectId;
     report.projectId = projectId || report.projectId;
     report.userId = userId || report.userId;
     report.link = link || report.link;
 
     await report.save();
+    await Project.updateReportCount(oldProjectId, report.projectId);
+
     res.status(200).json({ message: 'Report updated successfully', report });
   } catch (error) {
     console.error(error);
@@ -113,6 +130,8 @@ export const deleteReport = async (req, res) => {
     if (!report) {
       return res.status(404).json({ message: 'Report not found' });
     }
+
+    await Project.updateReportCount(report.projectId, null);
 
     res.status(200).json({ message: 'Report deleted successfully' });
   } catch (error) {

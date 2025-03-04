@@ -1,10 +1,7 @@
 import { Box, Button } from '@mui/material';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
-import { InputText } from 'primereact/inputtext';
 import PropTypes from 'prop-types';
 
-const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) => {
+const TableHeader = ({ onOpenModal }) => {
     return (
         <Box
             sx={{
@@ -14,11 +11,6 @@ const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) =
                 alignItems: 'center',
             }}
         >
-            <IconField iconPosition="left">
-                <InputIcon className="pi pi-search" />
-                <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Busqueda global" />
-            </IconField>
-
             <Button
                 variant="contained"
                 color="primary"
@@ -33,8 +25,6 @@ const TableHeader = ({ globalFilterValue, onGlobalFilterChange, onOpenModal }) =
 };
 
 TableHeader.propTypes = {
-    globalFilterValue: PropTypes.string.isRequired,
-    onGlobalFilterChange: PropTypes.func.isRequired,
     onOpenModal: PropTypes.func.isRequired,
 };
 

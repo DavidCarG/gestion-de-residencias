@@ -1,16 +1,16 @@
 import { useFetch } from '../../hooks/useFetch';
 import { fetchUsers } from '../../api/users';
 import UsersTable from '../../components/UsersTable';
-import Layout from '../../components/layout';
+import UsersProvider from '../../context/Users/UsersProvider';
 
 const UsersView = () => {
-  const response = useFetch(fetchUsers);
+    const response = useFetch(fetchUsers);
 
-  return (
-    <Layout>
-      <UsersTable {...response} />
-    </Layout>
-  );
+    return (
+        <UsersProvider>
+            <UsersTable {...response} />
+        </UsersProvider>
+    );
 };
 
 export default UsersView;

@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "concurrently": "^9.1.0",
+    "date-fns": "^4.1.0",
     "mongodb": "^6.11.0",
     "next": "^15.0.3",
     "primeflex": "^3.3.1",

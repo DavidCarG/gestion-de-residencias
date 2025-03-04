@@ -3,89 +3,117 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Box } from '@mui/material';
 import { FilterMatchMode } from 'primereact/api';
-import UserModal from './NewUserModal';
 import TableHeader from './TableHeader';
-import RoleFilterTemplate from './BodyTemplates/RoleFilterTemplate';
+import RoleFilterTemplate from './FilterTemplates/RoleFilterTemplate';
 import { OptionsBodyTemplate } from './BodyTemplates/OptionsBodyTemplate';
-import { createUser } from '../../api/users';
 import PropTypes from 'prop-types';
+import { RoleBodyTemplate } from './BodyTemplates/RoleBodyTemplate';
+import UserModal from './Modals/NewUserModal';
+import { defaultTableProps } from '../consts';
+import { useUsersContext } from '../../context/Users';
+import { useEffect } from 'react';
 
-//TODO fix or remove global filter
-const UsersTable = ({ data, loading, error }) => {
+const UsersTable = ({ data: initialData, loading, error }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
     const handleModalOpen = () => setIsModalOpen(true);
     const handleModalClose = () => setIsModalOpen(false);
 
     const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         role: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
 
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        setFilters((filters) => ({
-            ...filters,
-            global: { ...filters.global, value },
-        }));
-        setGlobalFilterValue(value);
-    };
+    const [data, setData] = useState(initialData);
+    const { tableData } = useUsersContext();
+
+    useEffect(() => {
+        if (initialData && initialData.length > 0) {
+            setData(initialData);
+        }
+    }, [initialData]);
+
+    useEffect(() => {
+        if (tableData && tableData.length > 0) {
+            setData(tableData);
+        }
+    }, [tableData]);
 
     return (
         <Box
-        sx={{
-            margin:'12vh 2rem 3vh 2rem',
-        }}
+            sx={{
+                margin: '3rem 2rem',
+                height: '90vh',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+            }}
         >
-            {error && <Box sx={{ color: 'red', marginBottom: '1rem' }}>{error}</Box>}
-            <UserModal open={isModalOpen} handleSave={createUser} handleClose={handleModalClose} />
+            {error && (
+                <Box sx={{ color: 'red', marginBottom: '1rem' }}>{error}</Box>
+            )}
+            <UserModal handleClose={handleModalClose} open={isModalOpen} />
             <DataTable
-                header={<TableHeader globalFilterValue={globalFilterValue} onGlobalFilterChange={onGlobalFilterChange} onOpenModal={handleModalOpen} />}
-                value={data}
-                stripedRows
-                paginator
-                removableSort
-                rows={5}
-                filters={filters}
-                onFilter={(e) => setFilters(e.filters)}
-                filterDisplay='row'
-                globalFilterFields={['nombre', 'email', 'role']}
                 emptyMessage="No se encontraron usuarios."
+                filters={filters}
+                header={<TableHeader onOpenModal={handleModalOpen} />}
                 loading={loading}
+                onFilter={(e) => setFilters(e.filters)}
+                selection={selectedRow}
+                onSelectionChange={(e) => setSelectedRow(e.value)}
+                value={data}
+                {...defaultTableProps}
             >
-                <Column header="Nombre" filter filterPlaceholder="Buscar por nombre" sortable style={{ width: '40%' }} field='name'></Column>
-                <Column header="Email" filter filterPlaceholder="Buscar por correo" sortable style={{ width: '30%' }} field='email'></Column>
                 <Column
-                    header="Rol"
+                    field="name"
+                    filter
+                    filterPlaceholder="Buscar por nombre"
+                    header="Nombre"
                     sortable
-                    style={{ width: '20%' }}
-                    field='role'
+                    style={{ width: '40%' }}
+                />
+                <Column
+                    field="email"
+                    filter
+                    filterPlaceholder="Buscar por correo"
+                    header="Email"
+                    sortable
+                    style={{ width: '30%' }}
+                />
+                <Column
+                    body={RoleBodyTemplate}
+                    field="role"
                     filter
                     filterElement={RoleFilterTemplate}
+                    header="Rol"
                     showFilterMenu={false}
+                    sortable
+                    style={{ width: '20%' }}
                 />
-                <Column
-                style={{ width: '5%' }}
-                body={OptionsBodyTemplate}
-                />
+                <Column body={OptionsBodyTemplate} style={{ width: '5%' }} />
             </DataTable>
         </Box>
     );
-}
+};
 
 UsersTable.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
-            name: PropTypes.string,
             email: PropTypes.string,
-            role: PropTypes.oneOf(["jefe_academico", "profesor", "presidente_academia", "coordinador_carrera", "estudiante"]),
-            permissions: PropTypes.arrayOf(PropTypes.string)
+            name: PropTypes.string,
+            permissions: PropTypes.arrayOf(PropTypes.string),
+            role: PropTypes.oneOf([
+                'jefe_academico',
+                'profesor',
+                'presidente_academia',
+                'coordinador_carrera',
+                'estudiante',
+            ]),
         })
     ),
+    error: PropTypes.string,
     loading: PropTypes.bool,
-    error: PropTypes.string
 };
 
 export default UsersTable;
