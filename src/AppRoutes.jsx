@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 
 const AppRoutes = () => {
   const location = useLocation();
-  const excludeLayoutRoutes = ["/login", "/register"];
+  const excludeLayoutRoutes = ["/login", "/register", "/"];
 
   return (
     <>
@@ -19,11 +19,11 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       ) : (
         <Layout>
           <Routes>
-            <Route path="/" element={<App />} />
             <Route path="/home" element={<App />} />
             <Route path="/proyectos" element={<ProjectsView />} />
             <Route path="/usuarios" element={<UsersView />} />
