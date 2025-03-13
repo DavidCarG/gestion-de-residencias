@@ -13,7 +13,7 @@ function NavBar() {
     return (
         <>
             <Slide in={show} direction="down">
-                <AppBar position="fixed" sx={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                <AppBar position="fixed" sx={{ backgroundColor: 'rgba(0, 0, 0)' }}>
                     <Toolbar>
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>
                             Residencias Manager
@@ -26,12 +26,13 @@ function NavBar() {
                 onClick={toggleNavbar}
                 sx={{
                     position: 'fixed',
-                    top: show ? 70 : 10, // Dynamically adjust position
+                    top: show ? 70 : 10,
                     left: '50%',
                     marginTop: '-20px',
                     transform: 'translateX(-50%)',
-                    zIndex: 1201, // Ensure it's above other elements
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    transition: 'all 0.3s ease',
+                    zIndex: 1201,
+                    backgroundColor: 'rgba(17, 17, 17)',
                     color: 'white',
                     '&:hover': {
                         backgroundColor: 'rgba(0, 0, 0, 0.6)',

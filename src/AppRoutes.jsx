@@ -8,10 +8,12 @@ import ProjectsView from "./views/Projects/index.jsx";
 import Login from "./views/Auth/index.jsx";
 import Register from "./views/Auth/Register.jsx";
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 const AppRoutes = () => {
   const location = useLocation();
-  const excludeLayoutRoutes = ["/login", "/register", "/"];
+  const excludeLayoutRoutes = ["/login", "/register"];
+  const { username, email } = useSelector((state) => state.user);
 
   return (
     <>
@@ -19,17 +21,23 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Login />} />
         </Routes>
       ) : (
-        <Layout>
+        !(username && email) ? (
           <Routes>
-            <Route path="/home" element={<App />} />
-            <Route path="/proyectos" element={<ProjectsView />} />
-            <Route path="/usuarios" element={<UsersView />} />
-            <Route path="/reportes" element={<ReportsView />} />
+            <Route path="/" element={<Login />} />
           </Routes>
-        </Layout>
+        ) : (
+          <Layout>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/home" element={<App />} />
+              <Route path="/proyectos" element={<ProjectsView />} />
+              <Route path="/usuarios" element={<UsersView />} />
+              <Route path="/reportes" element={<ReportsView />} />
+            </Routes>
+          </Layout>
+        )
       )}
     </>
   );
