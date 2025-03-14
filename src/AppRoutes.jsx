@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
 import Layout from "./components/layout/index.jsx";
@@ -23,21 +23,19 @@ const AppRoutes = () => {
           <Route path="/register" element={<Register />} />
         </Routes>
       ) : (
-        !(username && email) ? (
-          <Routes>
-            <Route path="/" element={<Login />} />
-          </Routes>
-        ) : (
           <Layout>
             <Routes>
-              <Route path="/" element={<App />} />
+              <Route path="/"
+                element={
+                  username && email ? <Navigate to="/home" /> : <Navigate to="/login" />
+                }
+              />
               <Route path="/home" element={<App />} />
               <Route path="/proyectos" element={<ProjectsView />} />
               <Route path="/usuarios" element={<UsersView />} />
               <Route path="/reportes" element={<ReportsView />} />
             </Routes>
           </Layout>
-        )
       )}
     </>
   );
